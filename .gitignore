@@ -1,0 +1,11 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+
+/.idea
+/.git
+/.gitattributes
+/Tests
+/.swiftpm
