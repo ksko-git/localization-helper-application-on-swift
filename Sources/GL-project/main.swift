@@ -17,29 +17,44 @@ if CommandLine.arguments.count > 2 {
     for element in CommandLine.arguments {
         terminalArray.append(element)
     }
-
-    for element in terminalArray {
-        
-        for el in languagesArray {
-            if element == el {
-                lang = element
-            }
-        }
-        if element == "-k" {
-            keyK = element
-        } else if element == "-l" {
-            keyL = element
-        } else {
-            var count = 0
-            for el in languagesArray {
-                if element != el {
-                    count += 1
+    
+    if terminalArray.count == 3 || terminalArray.count == 5 {
+        for element in 0...terminalArray.count - 2 {
+            
+            if terminalArray[element] == "-k" {
+                var count = 0
+                for el in languagesArray {
+                    if terminalArray[element + 1] != el && terminalArray[element + 1] != "-l" {
+                        count += 1
+                    }
+                }
+                if count == languagesArray.count {
+                    keyK = terminalArray[element]
+                    word = terminalArray[element + 1]
                 }
             }
-            if count == languagesArray.count {
-                word = element
+            
+            if terminalArray[element] == "-l" {
+                for el in languagesArray {
+                    if terminalArray[element + 1] == el && terminalArray[element + 1] != "-k"  {
+                        keyL = terminalArray[element]
+                        lang = terminalArray[element + 1]
+                    }
+                }
             }
         }
+        
+        if terminalArray.count == 5 && !keyK.isEmpty && !word.isEmpty && !keyL.isEmpty && !lang.isEmpty {
+        }
+        else if terminalArray.count == 3 && keyK.isEmpty && word.isEmpty && !keyL.isEmpty && !lang.isEmpty {
+        }
+        else if terminalArray.count == 3 && !keyK.isEmpty && !word.isEmpty && keyL.isEmpty && lang.isEmpty {
+        } else {
+            exit(1)
+        }
+        
+    } else {
+        exit(1)
     }
 }
 
@@ -57,7 +72,7 @@ for (wordCode, wordName) in words {
     }
     
     // -l
-    if !keyL.isEmpty && keyK.isEmpty && language.lowercased() == lang.lowercased() {
+    if !keyL.isEmpty && keyK.isEmpty && !lang.isEmpty && language.lowercased() == lang.lowercased() {
         if !wordName.isEmpty {
             print("\(dictionaryWord.lowercased()) = \(wordName)")
             flag = true
@@ -72,24 +87,24 @@ for (wordCode, wordName) in words {
         let startOfTheWord2 = wordCode2.index(wordCode2.startIndex, offsetBy: 2)
         let dictionaryWord2 = wordCode2[startOfTheWord2..<wordCode2.endIndex]
         
+        // for default
+        if keyL.isEmpty && keyK.isEmpty && language == "en" && dictionaryWord == dictionaryWord2  && !wordName2.isEmpty {
+            
+            print("  \(language2) : \(wordName2)")
+            flag = true
+        }
+        
         // -k
-        if !keyK.isEmpty && keyL.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && !wordName2.isEmpty {
+        if !keyK.isEmpty && keyL.isEmpty && !word.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && !wordName2.isEmpty {
             print("  \(language2) : \(wordName2)")
             flag = true
         }
         // -k -l
-        if !keyL.isEmpty && !keyK.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && language2.lowercased() == lang.lowercased() && !wordName2.isEmpty {
+        if !keyL.isEmpty && !keyK.isEmpty && !word.isEmpty && !lang.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && language2.lowercased() == lang.lowercased() && !wordName2.isEmpty {
             print("  \(language2) : \(wordName2)")
             flag = true
         }
-        // for default
         
-        if keyL.isEmpty && keyK.isEmpty && language == "en" && dictionaryWord == dictionaryWord2  && !wordName2.isEmpty {
-            
-            
-            print("  \(language2) : \(wordName2)")
-            flag = true
-        }
     }
     
 }
@@ -97,30 +112,3 @@ for (wordCode, wordName) in words {
 if flag != true {
     print("Not found")
 }
-
-
-
-//for (wordCode, wordName) in words {
-//    let language =
-//        String(wordCode[wordCode.startIndex]) + String(wordCode[wordCode.index(after: wordCode.startIndex)])
-//
-//    let startOfTheEnWord = wordCode.index(wordCode.startIndex, offsetBy: 2)
-//    let neededWord = wordCode[startOfTheEnWord..<wordCode.endIndex]
-//
-//    if language == "en" {
-//        print(wordName.lowercased())
-//        for (secondWordCode, secondWordName) in words {
-//            let secondLanguage = String(secondWordCode[secondWordCode.startIndex]) + String(secondWordCode[secondWordCode.index(after: secondWordCode.startIndex)])
-//
-//            let startOfTheWord = secondWordCode.index(secondWordCode.startIndex, offsetBy: 2)
-//            let secondNeededWord = secondWordCode[startOfTheWord..<secondWordCode.endIndex]
-//
-//            if secondNeededWord == neededWord && !secondWordName.isEmpty {
-//                print("  \(secondLanguage) : \(secondWordName)")
-//            }
-//        }
-//
-//    }
-//}
-
-
