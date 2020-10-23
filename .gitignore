@@ -3,8 +3,4 @@
 /Packages
 /*.xcodeproj
 xcuserdata/
-
-/.idea
 /.git
-/.gitattributes
-/.swiftpm

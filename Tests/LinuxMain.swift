@@ -1,7 +1,7 @@
 import XCTest
 
-import GL_projectTests
+import localisation_helperTests
 
 var tests = [XCTestCaseEntry]()
-tests += GL_projectTests.allTests()
+tests += localisation_helperTests.allTests()
 XCTMain(tests)
