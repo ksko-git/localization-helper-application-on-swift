@@ -1,114 +1,84 @@
 import Foundation
 
-let languagesArray = ["ru", "en", "pt"]
+let TerminalAguments = CommandLine.arguments // Аргументы командной строки
+var flag = false // Флаг для Not found
 
 // Словарь
-var words: [String: String] = ["enHello": "Hello", "enDay": "Day", "enTerms": "Terms", "ruHello": "Привет", "ruDay": "День", "ruTerms": "", "ptHello": "", "ptDay": "Dia", "ptTerms": "Termos"]
+let words = ["hello": ["en": "Hello", "ru": "Привет"],
+             "day":   ["en": "Day", "ru": "День", "pt": "Dia"],
+             "terms": ["en": "Terms", "pt": "Termos"]]
 
-var keyK = "" // ключ k
-var keyL = "" // ключ l
-var lang = "" // язык
-var word = "" // слово
-
-var flag = false // флаг для Not found
-
-if CommandLine.arguments.count > 2 {
-    var terminalArray = [String]() // массив элементов командной строки
-    for element in CommandLine.arguments {
-        terminalArray.append(element)
-    }
-    
-    if terminalArray.count == 3 || terminalArray.count == 5 {
-        for element in 0...terminalArray.count - 2 {
-            
-            if terminalArray[element] == "-k" {
-                var count = 0
-                for el in languagesArray {
-                    if terminalArray[element + 1] != el && terminalArray[element + 1] != "-l" {
-                        count += 1
-                    }
-                }
-                if count == languagesArray.count {
-                    keyK = terminalArray[element]
-                    word = terminalArray[element + 1]
-                }
-            }
-            
-            if terminalArray[element] == "-l" {
-                for el in languagesArray {
-                    if terminalArray[element + 1] == el && terminalArray[element + 1] != "-k"  {
-                        keyL = terminalArray[element]
-                        lang = terminalArray[element + 1]
+// -k -l
+if let keyKPosition = TerminalAguments.firstIndex(of: "-k"), let keyLPosition = TerminalAguments.firstIndex(of: "-l") {
+    // Если нет значений после ключей
+    if keyKPosition + 1 == TerminalAguments.endIndex || keyLPosition + 1 == TerminalAguments.endIndex {
+        print("Not found")
+    } else if CommandLine.arguments.count == 5 {
+        for (_, wordsArray) in words {
+            for (_, word) in wordsArray {
+                if word.lowercased() == TerminalAguments[keyKPosition + 1].lowercased() {
+                    for (language, word2) in wordsArray {
+                        if language == TerminalAguments[keyLPosition + 1].lowercased() {
+                            print(word2)
+                            flag = true
+                        }
                     }
                 }
             }
         }
-        
-        if terminalArray.count == 5 && !keyK.isEmpty && !word.isEmpty && !keyL.isEmpty && !lang.isEmpty {
+        // Если слово при переборе не нашлось
+        if flag != true {
+            print("Not found")
         }
-        else if terminalArray.count == 3 && keyK.isEmpty && word.isEmpty && !keyL.isEmpty && !lang.isEmpty {
+    }
+// -k
+} else if let keyKPosition = TerminalAguments.firstIndex(of: "-k") {
+    // Если нет значений после ключа
+    if keyKPosition + 1 == TerminalAguments.endIndex {
+        print("Not found")
+    // Если нет лишних элементов в терминале
+    } else if CommandLine.arguments.count == 3 {
+        print(TerminalAguments[keyKPosition + 1].lowercased())
+        for (_, wordsArray) in words {
+            for (language, word) in wordsArray {
+                if word.lowercased() == TerminalAguments[keyKPosition + 1].lowercased() {
+                    for (_, word2) in wordsArray {
+                        print("    \(language): \(word2)")
+                    }
+                    flag = true
+                }
+            }
         }
-        else if terminalArray.count == 3 && !keyK.isEmpty && !word.isEmpty && keyL.isEmpty && lang.isEmpty {
-        } else {
-            exit(1)
+    }
+    // Если слово при переборе не нашлось
+    if flag != true {
+        print("Not found")
+    }
+// -l
+} else if let keyLPosition = TerminalAguments.firstIndex(of: "-l") {
+    // Если нет значений после ключа
+    if keyLPosition + 1 == TerminalAguments.endIndex {
+        print("Not found")
+    } else if CommandLine.arguments.count == 3 {
+        for (enWord, word) in words {
+            // Если слово найдено
+            if let element = word[TerminalAguments[keyLPosition + 1].lowercased()] {
+                flag = true
+                print("\(enWord) = \(element)")
+            }
         }
-        
-    } else {
-        exit(1)
+        // Если слово при переборе не нашлось
+        if flag != true {
+            print("Not found")
+        }
+    }
+// Default
+} else if TerminalAguments.count == 1 {
+    for (enWord, wordsArray) in words {
+        print(enWord)
+        for (language, word) in wordsArray {
+            print("   \(language): \(word)")
+        }
     }
 }
 
-for (wordCode, wordName) in words {
-    let language =
-        String(wordCode[wordCode.startIndex]) +
-        String(wordCode[wordCode.index(after: wordCode.startIndex)])
-
-    let startOfTheWord = wordCode.index(wordCode.startIndex, offsetBy: 2)
-    let dictionaryWord = wordCode[startOfTheWord..<wordCode.endIndex]
-    
-    // for default
-    if keyL.isEmpty && keyK.isEmpty && language == "en" {
-        print(wordName.lowercased())
-    }
-    
-    // -l
-    if !keyL.isEmpty && keyK.isEmpty && !lang.isEmpty && language.lowercased() == lang.lowercased() {
-        if !wordName.isEmpty {
-            print("\(dictionaryWord.lowercased()) = \(wordName)")
-            flag = true
-        }
-    }
-    
-    for (wordCode2, wordName2) in words {
-        let language2 =
-            String(wordCode2[wordCode2.startIndex]) +
-            String(wordCode2[wordCode2.index(after: wordCode2.startIndex)])
-
-        let startOfTheWord2 = wordCode2.index(wordCode2.startIndex, offsetBy: 2)
-        let dictionaryWord2 = wordCode2[startOfTheWord2..<wordCode2.endIndex]
-        
-        // for default
-        if keyL.isEmpty && keyK.isEmpty && language == "en" && dictionaryWord == dictionaryWord2  && !wordName2.isEmpty {
-            
-            print("  \(language2) : \(wordName2)")
-            flag = true
-        }
-        
-        // -k
-        if !keyK.isEmpty && keyL.isEmpty && !word.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && !wordName2.isEmpty {
-            print("  \(language2) : \(wordName2)")
-            flag = true
-        }
-        // -k -l
-        if !keyL.isEmpty && !keyK.isEmpty && !word.isEmpty && !lang.isEmpty && word.lowercased() == wordName.lowercased() && dictionaryWord2 == dictionaryWord && language2.lowercased() == lang.lowercased() && !wordName2.isEmpty {
-            print("  \(language2) : \(wordName2)")
-            flag = true
-        }
-        
-    }
-    
-}
-
-if flag != true {
-    print("Not found")
-}
