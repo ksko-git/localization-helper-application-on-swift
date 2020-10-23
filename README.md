@@ -6,12 +6,10 @@
 git clone https://github.com/ksko-git/localization-helper-application-on-swift
 cd localization-helper-application-on-swift/Sources/localisation-helper
 swift build
-
 ```
 ## Запуск проекта
 ```
 swift run localisation-helper
-
 ```
 ### swift run localisation-helper --help
 ```
@@ -24,5 +22,4 @@ OPTIONS:
   -l, --language <language>
                           The language you want to translate the word into. 
   -h, --help              Show help information.
-
 ```
