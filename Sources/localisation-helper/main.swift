@@ -88,14 +88,14 @@ struct Translate: ParsableCommand {
 
     func run() throws {
         // -k
-        if key != nil && language == nil {
-            keyKOutput (key: key!)
+        if let key: String = key, language == nil {
+            keyKOutput (key: key)
         // -l
-        } else if key == nil && language != nil {
-            keyLOutput (language: language!)
+        } else if key == nil, let language: String = language {
+            keyLOutput (language: language)
         // -k -l
-        } else if key != nil && language != nil {
-            keyKAndLOutput(key: key!, language: language!)
+        } else if let key: String = key, let language: String = language {
+            keyKAndLOutput(key: key, language: language)
         // default
         } else if key == nil && language == nil {
             defaultOutput()
