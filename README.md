@@ -1,7 +1,6 @@
-# localisation-helper
+# Приложение-помощник для локализации
 
 ## Сборка проекта
-
 ```
 git clone https://github.com/ksko-git/localization-helper-application-on-swift
 cd localization-helper-application-on-swift/Sources/localisation-helper
