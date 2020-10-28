@@ -15,92 +15,97 @@ if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
 // Флаг для Not found
 var flag = false
 
-// ====== ФУНКЦИИ ======
-// -k
-func keyKOutput (key: String) {
-    print(key.lowercased())
-    for (_, wordsArray) in dictionary {
-        for (language, word) in wordsArray {
-            if word.lowercased() == key.lowercased() {
-                for (_, word2) in wordsArray {
-                    print("    \(language): \(word2)")
-                }
-                flag = true
-            }
-        }
-    }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
+// Вывод в консоль
+func ConsoleOutput(word: String) {
+    return print(word)
+}
+
+// Шаблоны для вывода в консоль
+func OutputTemplates (variant: Bool, firstArgument: String, secondArgument: String) {
+    flag = true
+    variant == true
+        ? print("    \(firstArgument): \(secondArgument)")
+        : print("\(firstArgument) = \(secondArgument)")
+}
+
+// Вывод Not Found
+func OutputNotFound (flag: Bool) {
+    guard flag == true else {
+        return print("Not found")
     }
 }
-// -l
-func keyLOutput (language: String) {
-    for (enWord, wordsArray) in dictionary {
-        // Если слово найдено
-        if let word = wordsArray[language.lowercased()] {
-            flag = true
-            print("\(enWord) = \(word)")
+// Поиск по ключам --key --language
+func SearchOptionsKL (key: String, language: String) {
+    if language == "none" {
+        ConsoleOutput(word: key.lowercased())
+    }
+    for (englishWord, wordsArray) in dictionary {
+        // -l
+        if key == "none", let word = wordsArray[language.lowercased()] {
+            OutputTemplates(variant: false, firstArgument: englishWord, secondArgument: word)
         }
-    }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
-    }
-}
-// -k -l
-func keyKAndLOutput (key: String, language: String) {
-    for (_, wordsArray) in dictionary {
-        for (_, word) in wordsArray {
-            if word.lowercased() == key.lowercased() {
-                for (lang, word2) in wordsArray {
-                    if lang == language.lowercased() {
-                        print(word2)
+        for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
+            if dictionaryTranslation.lowercased() == key.lowercased() {
+                for (thisLanguage, thisTranslation) in wordsArray {
+                    // -k
+                    if language == "none" {
+                        OutputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: thisTranslation)
+                    // -k -l
+                    } else if thisLanguage == language.lowercased() {
+                        ConsoleOutput(word: thisTranslation)
                         flag = true
                     }
                 }
             }
         }
     }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
-    }
+    OutputNotFound(flag: flag)
 }
-// default
-func defaultOutput() {
-    for (enWord, wordsArray) in dictionary {
-        print(enWord)
-        for (language, word) in wordsArray {
-            print("    \(language): \(word)")
+
+func defaultSearch() {
+    for (englishWord, wordsArray) in dictionary {
+        ConsoleOutput(word: englishWord)
+        for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
+            OutputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: dictionaryTranslation)
         }
     }
+    OutputNotFound(flag: flag)
 }
 
 struct Translate: ParsableCommand {
-    static let configuration = CommandConfiguration(abstract: "Localisation helper terminal aplication.")
-    // -k --key
-    @Option(name: .shortAndLong, help: "The word you want to translate.")
-    var key: String?
-    // -l --language
-    @Option(name: .shortAndLong, help: "The language you want to translate the word into.")
-    var language: String?
+    
+    static let configuration = CommandConfiguration(abstract: "Localisation helper application.",
+                                                    subcommands: [Search.self])
+}
 
-    func run() throws {
-        // -k
-        if let key: String = key, language == nil {
-            keyKOutput(key: key)
-        // -l
-        } else if key == nil, let language: String = language {
-            keyLOutput(language: language)
-        // -k -l
-        } else if let key: String = key, let language: String = language {
-            keyKAndLOutput(key: key, language: language)
-        // default
-        } else if key == nil && language == nil {
-            defaultOutput()
+extension Translate {
+    
+    struct Search: ParsableCommand {
+        static let configuration = CommandConfiguration(abstract: "Find a word in the dictionary.")
+        // -k --key
+        @Option(name: .shortAndLong, help: "The word you want to translate.")
+        var key: String?
+        // -l --language
+        @Option(name: .shortAndLong, help: "The language you want to translate the word into.")
+        var language: String?
+
+        func run() throws {
+            // -k
+            if let key: String = key, language == nil {
+                SearchOptionsKL(key: key, language: "none")
+            // -l
+            } else if key == nil, let language: String = language {
+                SearchOptionsKL(key: "none", language: language)
+            // -k -l
+            } else if let key: String = key, let language: String = language {
+                SearchOptionsKL(key: key, language: language)
+            // default
+            } else if key == nil && language == nil {
+                defaultSearch()
+            }
         }
     }
+    
 }
 
 Translate.main()
