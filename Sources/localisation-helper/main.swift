@@ -11,10 +11,16 @@ if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
     dictionary = [:]
 }
 
+func jsonEncodingWriting (dictionary: [String: [String: String]]) throws {
+    JSONEncoder().outputFormatting = .prettyPrinted
+    let json = try JSONEncoder().encode(dictionary.self)
+    try json.write(to: URL(fileURLWithPath: path))
+}
+
 struct Translate: ParsableCommand {
     static let configuration = CommandConfiguration(
         abstract: "Localisation helper application.",
-        subcommands: [Search.self, Update.self]
+        subcommands: [Search.self, Update.self, Delete.self]
     )
 }
 
@@ -93,7 +99,21 @@ extension Translate {
         )
         
         func run() throws {
-            //
+            // -k
+            if let key: String = options.key, options.language == nil {
+                dictionary = removeFromDictionaryKL(key: key, language: "none")
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -l
+            } else if options.key == nil, let language: String = options.language {
+                dictionary = removeFromDictionaryKL(key: "none", language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -k -l
+            }else if let key: String = options.key, let language: String = options.language {
+                dictionary = removeFromDictionaryKL(key: key, language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            } else if options.key == nil && options.language == nil {
+                print("Type --help to know how to use delete subcommand.")
+            }
         }
     }
 }

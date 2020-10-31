@@ -7,12 +7,6 @@
 
 import Foundation
 
-func jsonEncodingWriting (dictionary: [String: [String: String]]) throws {
-    JSONEncoder().outputFormatting = .prettyPrinted
-    let json = try JSONEncoder().encode(dictionary.self)
-    try json.write(to: URL(fileURLWithPath: path))
-}
-
 func updateDictionaryKL (newWord: String, key: String, language: String) -> [String: [String: String]] {
     var isInDictionary = false
     var dict: [String: String] = [:]
@@ -35,6 +29,6 @@ func updateDictionaryKL (newWord: String, key: String, language: String) -> [Str
             dictionary.updateValue(dict, forKey: newWord)
         }
     }
-    print(dictionary)
+//    print(dictionary)
     return dictionary
 }
