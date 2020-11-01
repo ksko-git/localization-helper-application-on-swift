@@ -17,17 +17,17 @@ func updateDictionaryKL (newWord: String, key: String, language: String) -> [Str
             if language.lowercased() == dictionaryLanguage.lowercased()
                 && key.lowercased() == dictionaryTranslation.lowercased() {
                 // Обновим его
-                dictionary[englishWord]![dictionaryLanguage] = newWord
+                dictionary[englishWord]?[dictionaryLanguage] = newWord
                 dictionary.updateValue(wordsArray, forKey: dictionaryLanguage)
                 isInDictionary = true
             }
         }
-        // Если слова нет в словаре
-        if isInDictionary != true {
-            dict[language] = key
-            dictionary[newWord]?[language] = key
-            dictionary.updateValue(dict, forKey: newWord)
-        }
+    }
+    // Если слова нет в словаре
+    if isInDictionary != true {
+        dict[language] = key
+        dictionary[newWord]?[language] = key
+        dictionary.updateValue(dict, forKey: newWord)
     }
 //    print(dictionary)
     return dictionary

@@ -8,21 +8,21 @@
 import Foundation
 
 // Флаг для Not found
-var flag = false
+var isInDictionary = false
 // Вывод в консоль
-func ConsoleOutput (word: String) {
+func consoleOutput (word: String) {
     return print(word)
 }
 // Шаблоны для вывода в консоль
-func OutputTemplates (variant: Bool, firstArgument: String, secondArgument: String) {
-    flag = true
+func outputTemplates (variant: Bool, firstArgument: String, secondArgument: String) {
+    isInDictionary = true
     variant == true
         ? print("    \(firstArgument): \(secondArgument)")
         : print("\(firstArgument) = \(secondArgument)")
 }
 // Вывод Not Found
-func OutputNotFound (flag: Bool) {
-    guard flag == true else {
+func outputNotFound (isInDictionary: Bool) {
+    guard isInDictionary == true else {
         return print("Not found")
     }
 }
