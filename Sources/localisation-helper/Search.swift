@@ -8,7 +8,7 @@
 import Foundation
 
 // Поиск по ключам --key --language
-func searchOptionsKL (key: String, language: String) throws {
+func searchOptionsKL(key: String, language: String) throws {
     if language == "none" {
         consoleOutput(word: key.lowercased())
     }
@@ -35,7 +35,7 @@ func searchOptionsKL (key: String, language: String) throws {
     outputNotFound(isInDictionary: isInDictionary)
 }
 
-func defaultSearch () {
+func defaultSearch() {
     for (englishWord, wordsArray) in dictionary {
         consoleOutput(word: englishWord)
         for (dictionaryLanguage, dictionaryTranslation) in wordsArray {

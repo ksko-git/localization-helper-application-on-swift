@@ -11,7 +11,7 @@ if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
     dictionary = [:]
 }
 
-func jsonEncodingWriting (dictionary: [String: [String: String]]) throws {
+func jsonEncodingWriting(dictionary: [String: [String: String]]) throws {
     JSONEncoder().outputFormatting = .prettyPrinted
     let json = try JSONEncoder().encode(dictionary.self)
     try json.write(to: URL(fileURLWithPath: path))

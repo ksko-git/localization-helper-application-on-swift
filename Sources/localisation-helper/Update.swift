@@ -7,7 +7,7 @@
 
 import Foundation
 
-func updateDictionaryKL (newWord: String, key: String, language: String) -> [String: [String: String]] {
+func updateDictionaryKL(newWord: String, key: String, language: String) -> [String: [String: String]] {
     var isInDictionary = false
     var dict: [String: String] = [:]
     // -k -l
