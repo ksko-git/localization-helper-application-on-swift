@@ -1,104 +1,119 @@
 import Foundation
 import ArgumentParser
 
-// Путь к словарю
-let path = "dictionary.json"
+let path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
 let decoder = JSONDecoder()
 var dictionary: [String: [String: String]] = [:]
 
-// Считывание словаря из файла
 if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
     dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
 } else {
     dictionary = [:]
 }
-// Флаг для Not found
-var flag = false
 
-// ====== ФУНКЦИИ ======
-// -k
-func keyKOutput (key: String) {
-    print(key.lowercased())
-    for (_, wordsArray) in dictionary {
-        for (language, word) in wordsArray {
-            if word.lowercased() == key.lowercased() {
-                for (_, word2) in wordsArray {
-                    print("    \(language): \(word2)")
-                }
-                flag = true
-            }
-        }
-    }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
-    }
-}
-// -l
-func keyLOutput (language: String) {
-    for (enWord, wordsArray) in dictionary {
-        // Если слово найдено
-        if let word = wordsArray[language.lowercased()] {
-            flag = true
-            print("\(enWord) = \(word)")
-        }
-    }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
-    }
-}
-// -k -l
-func keyKAndLOutput (key: String, language: String) {
-    for (_, wordsArray) in dictionary {
-        for (_, word) in wordsArray {
-            if word.lowercased() == key.lowercased() {
-                for (lang, word2) in wordsArray {
-                    if lang == language.lowercased() {
-                        print(word2)
-                        flag = true
-                    }
-                }
-            }
-        }
-    }
-    // Если слово при переборе не нашлось
-    if flag != true {
-        print("Not found")
-    }
-}
-// default
-func defaultOutput() {
-    for (enWord, wordsArray) in dictionary {
-        print(enWord)
-        for (language, word) in wordsArray {
-            print("    \(language): \(word)")
-        }
-    }
+func jsonEncodingWriting(dictionary: [String: [String: String]]) throws {
+    JSONEncoder().outputFormatting = .prettyPrinted
+    let json = try JSONEncoder().encode(dictionary.self)
+    try json.write(to: URL(fileURLWithPath: path))
 }
 
 struct Translate: ParsableCommand {
-    static let configuration = CommandConfiguration(abstract: "Localisation helper terminal aplication.")
-    // -k --key
-    @Option(name: .shortAndLong, help: "The word you want to translate.")
-    var key: String?
-    // -l --language
-    @Option(name: .shortAndLong, help: "The language you want to translate the word into.")
-    var language: String?
+    static let configuration = CommandConfiguration(
+        abstract: "Localisation helper application.",
+        subcommands: [Search.self, Update.self, Delete.self]
+    )
+}
 
-    func run() throws {
-        // -k
-        if let key: String = key, language == nil {
-            keyKOutput (key: key)
-        // -l
-        } else if key == nil, let language: String = language {
-            keyLOutput (language: language)
-        // -k -l
-        } else if let key: String = key, let language: String = language {
-            keyKAndLOutput(key: key, language: language)
-        // default
-        } else if key == nil && language == nil {
-            defaultOutput()
+extension Translate {
+    
+    struct Arguments: ParsableArguments {
+        @Argument var word: String?
+    }
+    
+    struct Options: ParsableArguments {
+        // -k --key
+        @Option(name: .shortAndLong, help: "The word you want to translate.")
+        var key: String?
+        // -l --language
+        @Option(name: .shortAndLong, help: "The language you want to translate the word into.")
+        var language: String?
+    }
+    
+    struct Search: ParsableCommand {
+        
+        @OptionGroup var options: Translate.Options
+        
+        static var configuration = CommandConfiguration(
+            abstract: "Find a word in the dictionary."
+        )
+        
+        func run() throws {
+            // -k
+            if let key: String = options.key, options.language == nil {
+                try searchOptionsKL(key: key, language: "none")
+            // -l
+            } else if options.key == nil, let language: String = options.language {
+                try searchOptionsKL(key: "none", language: language)
+            // -k -l
+            } else if let key: String = options.key, let language: String = options.language {
+                try searchOptionsKL(key: key, language: language)
+            // default
+            } else if options.key == nil && options.language == nil {
+                defaultSearch()
+            }
+        }
+    }
+    
+    struct Update: ParsableCommand {
+        @Argument var word: String?
+        @OptionGroup var options: Translate.Options
+        
+        static var configuration = CommandConfiguration(
+            abstract: "Add word to dictionary."
+        )
+        
+        func run() throws {
+            // -k
+            if let thisWord = word, let key: String = options.key, options.language == nil {
+                dictionary = updateDictionaryKL(newWord: thisWord, key: key, language: "none")
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -l
+            } else if let thisWord = word, options.key == nil, let language: String = options.language {
+                dictionary = updateDictionaryKL(newWord: thisWord, key: "none", language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -k -l
+            } else if let thisWord = word, let key: String = options.key, let language: String = options.language {
+                dictionary = updateDictionaryKL(newWord: thisWord, key: key, language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            } else if options.key == nil && options.language == nil {
+                print("Type --help to know how to use update subcommand.")
+            }
+        }
+    }
+    
+    struct Delete: ParsableCommand {
+        @OptionGroup var options: Translate.Options
+        
+        static var configuration = CommandConfiguration(
+            abstract: "Remove word from dictionary."
+        )
+        
+        func run() throws {
+            // -k
+            if let key: String = options.key, options.language == nil {
+                dictionary = removeFromDictionaryKL(key: key, language: "none")
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -l
+            } else if options.key == nil, let language: String = options.language {
+                dictionary = removeFromDictionaryKL(key: "none", language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            // -k -l
+            }else if let key: String = options.key, let language: String = options.language {
+                dictionary = removeFromDictionaryKL(key: key, language: language)
+                try jsonEncodingWriting(dictionary: dictionary)
+            } else if options.key == nil && options.language == nil {
+                print("Type --help to know how to use delete subcommand.")
+            }
         }
     }
 }
