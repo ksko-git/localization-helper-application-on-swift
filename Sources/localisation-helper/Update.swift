@@ -8,9 +8,12 @@
 import Foundation
 
 func updateDictionaryKL(newWord: String, key: String, language: String) -> [String: [String: String]] {
+    let dict = Dictionary()
+    var dictionary = dict.jsonInDictionary()
+    
     var isInDictionary = false
-    var dict: [String: String] = [:]
-    // -k -l
+    var thisDictionary: [String: String] = [:]
+    // -k -l || -k || -l
     for (englishWord, wordsArray) in dictionary {
         for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
             // Если слово есть в словаре
@@ -25,9 +28,9 @@ func updateDictionaryKL(newWord: String, key: String, language: String) -> [Stri
     }
     // Если слова нет в словаре
     if isInDictionary != true {
-        dict[language] = key
+        thisDictionary[language] = key
         dictionary[newWord]?[language] = key
-        dictionary.updateValue(dict, forKey: newWord)
+        dictionary.updateValue(thisDictionary, forKey: newWord)
     }
 //    print(dictionary)
     return dictionary

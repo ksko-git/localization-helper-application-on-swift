@@ -8,6 +8,9 @@
 import Foundation
 
 func removeFromDictionaryKL(key: String, language: String) -> [String: [String: String]] {
+    let dict = Dictionary()
+    var dictionary = dict.jsonInDictionary()
+    
     for (englishWord, wordsArray) in dictionary {
         for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
             // -k -l
