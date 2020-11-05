@@ -9,26 +9,61 @@ import Foundation
 import ArgumentParser
 
 class ArgumentsParser: ArgumentsParserProtocol {
-    func parse() -> Arguments {
+    func parse() {
         do {
             let command = try Commands.parseAsRoot()
             
             switch command {
+            
             case let command as Commands.Search:
+                let search = Search()
+                
                 if let key: String = command.key, command.language == nil {
-                    search(key: key, language: "") // -k
+                    search.search(key: key, language: "") // -k
                 } else if command.key == nil, let language: String = command.language {
-                    search(key: "", language: language) // -l
+                    search.search(key: "", language: language) // -l
                 } else if let key: String = command.key, let language: String = command.language {
-                    search(key: key, language: language) // -k -l
+                    search.search(key: key, language: language) // -k -l
                 } else {
-                    defaultSearch() // default
+                    search.defaultSearch() // default
                 }
-                return .search(key: command.key, language: command.language)
+                
             case let command as Commands.Update:
-                return .update(word: command.word, key: command.key, language: command.language)
+                let update = Update()
+                let dict = Dictionary()
+                var dictionary = dict.jsonInDictionary()                
+                
+                if let thisWord = command.word, let key: String = command.key, command.language == nil { // -k
+                    dictionary = update.update(newWord: thisWord, key: key, language: "")
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else if let thisWord = command.word, command.key == nil, let language: String = command.language { // -l
+                    dictionary = update.update(newWord: thisWord, key: "", language: language)
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else if let thisWord = command.word, let key: String = command.key, let language: String = command.language { // -k -l
+                    dictionary = update.update(newWord: thisWord, key: key, language: language)
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else {
+                    print(Commands.helpMessage())
+                }
+                
             case let command as Commands.Delete:
-                return .delete(key: command.key, language: command.language)
+                let delete = Delete()
+                let dict = Dictionary()
+                var dictionary = dict.jsonInDictionary()
+                
+                if let key: String = command.key, command.language == nil { // -k
+                    dictionary = delete.delete(key: key, language: "")
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else if command.key == nil, let language: String = command.language { // -l
+                    dictionary = delete.delete(key: "", language: language)
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else if let key: String = command.key, let language: String = command.language { // -k -l
+                    dictionary = delete.delete(key: key, language: language)
+                    try dict.jsonEncodingWriting(dictionary: dictionary)
+                } else {
+                    print(Commands.helpMessage())
+                }
+                
             default:
                 print(Commands.helpMessage())
                 Commands.exit()
@@ -60,13 +95,13 @@ extension Commands {
     
     struct Update: ParsableCommand {
         @Argument
-        var word: String
+        var word: String?
         
         @Option(name: .shortAndLong)
-        var key: String
+        var key: String?
         
         @Option(name: .shortAndLong)
-        var language: String
+        var language: String?
     }
     
     struct Delete: ParsableCommand {
