@@ -10,12 +10,6 @@ import ArgumentParser
 
 class ArgumentsParser: ArgumentsParserProtocol {
     
-    var message: TerminalOutput
-    
-    init() {
-        self.message = TerminalOutput()
-    }
-    
     func parse() -> Arguments {
         do {
             let command = try Commands.parseAsRoot()
@@ -28,13 +22,11 @@ class ArgumentsParser: ArgumentsParserProtocol {
             case let command as Commands.Delete:
                 return .delete(key: command.key, language: command.language)                
             default:
-                message.consoleOutput(word: Commands.helpMessage())
-                Commands.exit()
+                return .exit
             }
         }
         catch {
-            message.consoleOutput(word: Commands.helpMessage())
-            Commands.exit()
+            return .exit
         }
     }
 }

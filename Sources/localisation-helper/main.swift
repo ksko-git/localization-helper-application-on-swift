@@ -14,15 +14,22 @@ class Container {
     var delete: DeleteProtocol {
         return Delete()
     }
+    var message: TerminalOutputProtocol {
+        return TerminalOutput()
+    }
 }
 
 func main() {
     
     let container = Container()
 
-    let arguments = container.argumentsParser.parse()    
+    let arguments = container.argumentsParser.parse()
     
-    if case .search(let key, let language) = arguments {
+    if case .exit = arguments {
+        container.message.consoleOutput(word: Commands.helpMessage())
+        Commands.exit()
+        
+    } else if case .search(let key, let language) = arguments {
         if let key: String = key, let language: String = language {
             container.search.search(key: key, language: language)
         } else if let key: String = key {
@@ -41,7 +48,7 @@ func main() {
         } else if let thisWord = word, let language: String = language {
             container.update.update(newWord: thisWord, key: "", language: language)
         } else {
-            print(Commands.helpMessage())
+            container.message.consoleOutput(word: Commands.helpMessage())
         }
     } else if case .delete(let key, let language) = arguments {
         if let key: String = key, let language: String = language {
@@ -51,7 +58,7 @@ func main() {
         } else if let language: String = language {
             container.delete.delete(key: "", language: language)
         } else {
-            print(Commands.helpMessage())
+            container.message.consoleOutput(word: Commands.helpMessage())
         }
     }
     
