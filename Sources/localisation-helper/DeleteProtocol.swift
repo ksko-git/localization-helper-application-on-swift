@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DeleteProtocol {
-    func delete(key: String, language: String)
+    func delete(key: String?, language: String?)
 }

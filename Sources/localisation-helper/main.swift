@@ -33,9 +33,9 @@ func main() {
         if let key: String = key, let language: String = language {
             container.search.search(key: key, language: language)
         } else if let key: String = key {
-            container.search.search(key: key, language: "")
+            container.search.search(key: key, language: nil)
         } else if let language: String = language {
-            container.search.search(key: "", language: language)
+            container.search.search(key: nil, language: language)
         } else {
             container.search.defaultSearch()
         }
@@ -44,9 +44,9 @@ func main() {
         if let thisWord = word, let key: String = key, let language: String = language {
             container.update.update(newWord: thisWord, key: key, language: language)
         } else if let thisWord = word, let key: String = key {
-            container.update.update(newWord: thisWord, key: key, language: "")
+            container.update.update(newWord: thisWord, key: key, language: nil)
         } else if let thisWord = word, let language: String = language {
-            container.update.update(newWord: thisWord, key: "", language: language)
+            container.update.update(newWord: thisWord, key: nil, language: language)
         } else {
             container.message.consoleOutput(word: Commands.helpMessage())
         }
@@ -54,9 +54,9 @@ func main() {
         if let key: String = key, let language: String = language {
             container.delete.delete(key: key, language: language)
         } else if let key: String = key {
-            container.delete.delete(key: key, language: "")
+            container.delete.delete(key: key, language: nil)
         } else if let language: String = language {
-            container.delete.delete(key: "", language: language)
+            container.delete.delete(key: nil, language: language)
         } else {
             container.message.consoleOutput(word: Commands.helpMessage())
         }

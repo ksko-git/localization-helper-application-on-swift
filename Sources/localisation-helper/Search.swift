@@ -17,28 +17,28 @@ class Search: SearchProtocol {
         self.output = TerminalOutput()
     }
     
-    func search(key: String, language: String) {
+    func search(key: String?, language: String?) {
         let dictionary = dict.getDictionary()
         var isInDictionary = false
         
-        if language.isEmpty {
+        if let key: String = key, language == nil {
             output.consoleOutput(word: key.lowercased())
         }
         for (englishWord, wordsArray) in dictionary {
             // -l
-            if key.isEmpty, let word = wordsArray[language.lowercased()] {
+            if key == nil, let language: String = language, let word = wordsArray[language.lowercased()] {
                 output.outputTemplates(variant: false, firstArgument: englishWord, secondArgument: word)
                 isInDictionary = true
             }
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
-                if dictionaryTranslation.lowercased() == key.lowercased() {
+                if let key: String = key, dictionaryTranslation.lowercased() == key.lowercased() {
                     for (thisLanguage, thisTranslation) in wordsArray {
                         // -k
-                        if language.isEmpty {
+                        if language == nil {
                             output.outputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: thisTranslation)
                             isInDictionary = true
                         // -k -l
-                        } else if thisLanguage == language.lowercased() {
+                        } else if let language: String = language, thisLanguage == language.lowercased() {
                             output.consoleOutput(word: thisTranslation)
                             isInDictionary = true
                         }

@@ -15,7 +15,7 @@ class Update: UpdateProtocol {
         self.dict = Dictionary()
     }
     
-    func update(newWord: String, key: String, language: String) {
+    func update(newWord: String?, key: String?, language: String?) {
 
         var dictionary = dict.getDictionary()
         
@@ -25,7 +25,7 @@ class Update: UpdateProtocol {
         for (englishWord, wordsArray) in dictionary {
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
                 // Если слово есть в словаре
-                if language.lowercased() == dictionaryLanguage.lowercased()
+                if let language: String = language, let key: String = key, language.lowercased() == dictionaryLanguage.lowercased()
                     && key.lowercased() == dictionaryTranslation.lowercased() {
                     dictionary[englishWord]?[dictionaryLanguage] = newWord
                     dictionary.updateValue(wordsArray, forKey: dictionaryLanguage)
@@ -33,7 +33,8 @@ class Update: UpdateProtocol {
                 }
             }
         }
-        if isInDictionary != true { // Если слова нет в словаре
+        if let newWord: String = newWord, let language: String = language,
+           let key: String = key, isInDictionary != true { // Если слова нет в словаре
             thisDictionary[language] = key
             dictionary[newWord]?[language] = key
             dictionary.updateValue(thisDictionary, forKey: newWord)

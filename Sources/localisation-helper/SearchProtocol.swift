@@ -8,6 +8,6 @@
 import Foundation
 
 protocol SearchProtocol {
-    func search(key: String, language: String)
+    func search(key: String?, language: String?)
     func defaultSearch()
 }
