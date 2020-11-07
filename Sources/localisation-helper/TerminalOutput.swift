@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TerminalOutput {
+class TerminalOutput: TerminalOutputProtocol {
     
     var dict = Dictionary()
     
@@ -16,14 +16,13 @@ class TerminalOutput {
     }
     
     func outputTemplates(variant: Bool, firstArgument: String, secondArgument: String) { // Шаблоны
-        dict.isInDictionary = true
         variant == true
             ? print("    \(firstArgument): \(secondArgument)")
             : print("\(firstArgument) = \(secondArgument)")        
     }
     
     func outputNotFound(isInDictionary: Bool) { // Вывод Not Found        
-        guard dict.isInDictionary == true else {
+        guard isInDictionary == true else {
             return print("Not found")
         }
     }

@@ -7,12 +7,14 @@
 
 import Foundation
 
-class Search {
+class Search: SearchProtocol {
+    
+    let dict = Dictionary()
+    let output = TerminalOutput()
     
     func search(key: String, language: String) {
-        let dict = Dictionary()
-        let dictionary = dict.jsonInDictionary()
-        let output = TerminalOutput()
+        let dictionary = dict.getDictionaryFromJson()
+        var isInDictionary = false
         
         if language.isEmpty {
             output.consoleOutput(word: key.lowercased())
@@ -21,6 +23,7 @@ class Search {
             // -l
             if key.isEmpty, let word = wordsArray[language.lowercased()] {
                 output.outputTemplates(variant: false, firstArgument: englishWord, secondArgument: word)
+                isInDictionary = true
             }
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
                 if dictionaryTranslation.lowercased() == key.lowercased() {
@@ -28,30 +31,27 @@ class Search {
                         // -k
                         if language.isEmpty {
                             output.outputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: thisTranslation)
+                            isInDictionary = true
                         // -k -l
                         } else if thisLanguage == language.lowercased() {
                             output.consoleOutput(word: thisTranslation)
-                            dict.isInDictionary = true
+                            isInDictionary = true
                         }
                     }
                 }
             }
         }
-        output.outputNotFound(isInDictionary: dict.isInDictionary)
+        output.outputNotFound(isInDictionary: isInDictionary)
     }
 
     func defaultSearch() {
-        let dict = Dictionary()
-        let dictionary = dict.jsonInDictionary()
-        let output = TerminalOutput()
-        
+        let dictionary = dict.getDictionaryFromJson()
         for (englishWord, wordsArray) in dictionary {
             output.consoleOutput(word: englishWord)
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
                 output.outputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: dictionaryTranslation)
             }
         }
-        output.outputNotFound(isInDictionary: dict.isInDictionary)
     }
     
 }

@@ -7,10 +7,10 @@
 
 import Foundation
 
-class Delete {
-    func delete(key: String, language: String) -> [String: [String: String]] {
+class Delete: DeleteProtocol {
+    func delete(key: String, language: String) {
         let dict = Dictionary()
-        var dictionary = dict.jsonInDictionary()
+        var dictionary = dict.getDictionaryFromJson()
         
         for (englishWord, wordsArray) in dictionary {
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
@@ -25,8 +25,8 @@ class Delete {
                 }
             }
         }
+        dict.WritingToJsonFile(dictionary: dictionary)
 //        print(dictionary)
-        return dictionary
     }
 }
 

@@ -7,14 +7,16 @@
 
 import Foundation
 
-class Update {
+class Update: UpdateProtocol {
     
-    func update(newWord: String, key: String, language: String) -> [String: [String: String]] {
+    func update(newWord: String, key: String, language: String) {
 
         let dict = Dictionary()
-        var dictionary = dict.jsonInDictionary()
+        var dictionary = dict.getDictionaryFromJson()
         
+        var isInDictionary = false
         var thisDictionary: [String: String] = [:]
+        
         for (englishWord, wordsArray) in dictionary {
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
                 // Если слово есть в словаре
@@ -22,17 +24,17 @@ class Update {
                     && key.lowercased() == dictionaryTranslation.lowercased() {
                     dictionary[englishWord]?[dictionaryLanguage] = newWord
                     dictionary.updateValue(wordsArray, forKey: dictionaryLanguage)
-                    dict.isInDictionary = true
+                    isInDictionary = true
                 }
             }
         }
-        if dict.isInDictionary != true { // Если слова нет в словаре
+        if isInDictionary != true { // Если слова нет в словаре
             thisDictionary[language] = key
             dictionary[newWord]?[language] = key
             dictionary.updateValue(thisDictionary, forKey: newWord)
         }
+        dict.WritingToJsonFile(dictionary: dictionary)
 //        print(dictionary)
-        return dictionary
     }
     
 }

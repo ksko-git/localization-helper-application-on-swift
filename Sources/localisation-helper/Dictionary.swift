@@ -7,30 +7,31 @@
 
 import Foundation
 
-class Dictionary {
+class Dictionary: DictionaryProtocol {
     
-    var isInDictionary: Bool // флаг для Not Found
+    let path: String
     
-    let path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
+    init() {
+        self.path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
+    }
     
-    func jsonInDictionary() -> [String: [String: String]] {
-        let decoder = JSONDecoder()
+    func getDictionaryFromJson() -> ([String: [String: String]]) {
         var dictionary: [String: [String: String]] = [:]
         
         if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
-            dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
+            dictionary = (try? JSONDecoder().decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
         }
         return dictionary
     }
 
-    func jsonEncodingWriting(dictionary: [String: [String: String]]) throws {
-        JSONEncoder().outputFormatting = .prettyPrinted
-        let json = try JSONEncoder().encode(dictionary.self)
-        try json.write(to: URL(fileURLWithPath: path))
+    func WritingToJsonFile(dictionary: [String: [String: String]]) {
+        do {
+            JSONEncoder().outputFormatting = .prettyPrinted
+            let json = try JSONEncoder().encode(dictionary.self)
+            try json.write(to: URL(fileURLWithPath: path))
+        } catch {
+            print("Не удалось записать.")
+        }        
     }
-    
-    init() {
-        self.isInDictionary = false
-    }
-    
+
 }
