@@ -20,8 +20,7 @@ func main() {
     
     let container = Container()
 
-    let arguments = container.argumentsParser.parse()
-    
+    let arguments = container.argumentsParser.parse()    
     
     if case .search(let key, let language) = arguments {
         if let key: String = key, let language: String = language {
@@ -44,7 +43,7 @@ func main() {
         } else {
             print(Commands.helpMessage())
         }
-    } else if case .delete(let key, let language) = arguments {        
+    } else if case .delete(let key, let language) = arguments {
         if let key: String = key, let language: String = language {
             container.delete.delete(key: key, language: language)
         } else if let key: String = key {

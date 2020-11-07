@@ -9,11 +9,16 @@ import Foundation
 
 class Search: SearchProtocol {
     
-    let dict = Dictionary()
-    let output = TerminalOutput()
+    var output: TerminalOutput
+    let dict: Dictionary
+    
+    init() {
+        self.dict = Dictionary()
+        self.output = TerminalOutput()
+    }
     
     func search(key: String, language: String) {
-        let dictionary = dict.getDictionaryFromJson()
+        let dictionary = dict.getDictionary()
         var isInDictionary = false
         
         if language.isEmpty {
@@ -45,7 +50,7 @@ class Search: SearchProtocol {
     }
 
     func defaultSearch() {
-        let dictionary = dict.getDictionaryFromJson()
+        let dictionary = dict.getDictionary()
         for (englishWord, wordsArray) in dictionary {
             output.consoleOutput(word: englishWord)
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {

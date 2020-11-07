@@ -8,6 +8,6 @@
 import Foundation
 
 protocol DictionaryProtocol {
-    func getDictionaryFromJson() -> ([String: [String: String]])
-    func WritingToJsonFile(dictionary: [String: [String: String]])
+    func getDictionary() -> [String: [String: String]]
+    func writeToFile(dictionary: [String: [String: String]])
 }

@@ -15,7 +15,7 @@ class Dictionary: DictionaryProtocol {
         self.path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
     }
     
-    func getDictionaryFromJson() -> ([String: [String: String]]) {
+    func getDictionary() -> [String: [String: String]] {
         var dictionary: [String: [String: String]] = [:]
         
         if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
@@ -24,9 +24,8 @@ class Dictionary: DictionaryProtocol {
         return dictionary
     }
 
-    func WritingToJsonFile(dictionary: [String: [String: String]]) {
+    func writeToFile(dictionary: [String: [String: String]]) {
         do {
-            JSONEncoder().outputFormatting = .prettyPrinted
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
         } catch {

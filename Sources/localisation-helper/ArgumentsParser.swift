@@ -9,6 +9,13 @@ import Foundation
 import ArgumentParser
 
 class ArgumentsParser: ArgumentsParserProtocol {
+    
+    var message: TerminalOutput
+    
+    init() {
+        self.message = TerminalOutput()
+    }
+    
     func parse() -> Arguments {
         do {
             let command = try Commands.parseAsRoot()
@@ -21,12 +28,12 @@ class ArgumentsParser: ArgumentsParserProtocol {
             case let command as Commands.Delete:
                 return .delete(key: command.key, language: command.language)                
             default:
-                print(Commands.helpMessage())
+                message.consoleOutput(word: Commands.helpMessage())
                 Commands.exit()
             }
         }
         catch {
-            print(Commands.helpMessage())
+            message.consoleOutput(word: Commands.helpMessage())
             Commands.exit()
         }
     }

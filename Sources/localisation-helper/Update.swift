@@ -9,10 +9,15 @@ import Foundation
 
 class Update: UpdateProtocol {
     
+    var dict: Dictionary
+    
+    init() {
+        self.dict = Dictionary()
+    }
+    
     func update(newWord: String, key: String, language: String) {
 
-        let dict = Dictionary()
-        var dictionary = dict.getDictionaryFromJson()
+        var dictionary = dict.getDictionary()
         
         var isInDictionary = false
         var thisDictionary: [String: String] = [:]
@@ -33,8 +38,7 @@ class Update: UpdateProtocol {
             dictionary[newWord]?[language] = key
             dictionary.updateValue(thisDictionary, forKey: newWord)
         }
-        dict.WritingToJsonFile(dictionary: dictionary)
-//        print(dictionary)
+        dict.writeToFile(dictionary: dictionary)
     }
     
 }

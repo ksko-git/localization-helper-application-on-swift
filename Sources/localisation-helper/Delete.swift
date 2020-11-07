@@ -8,9 +8,15 @@
 import Foundation
 
 class Delete: DeleteProtocol {
+    
+    var dict: Dictionary
+    
+    init() {
+        self.dict = Dictionary()
+    }
+    
     func delete(key: String, language: String) {
-        let dict = Dictionary()
-        var dictionary = dict.getDictionaryFromJson()
+        var dictionary = dict.getDictionary()
         
         for (englishWord, wordsArray) in dictionary {
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
@@ -25,8 +31,7 @@ class Delete: DeleteProtocol {
                 }
             }
         }
-        dict.WritingToJsonFile(dictionary: dictionary)
-//        print(dictionary)
+        dict.writeToFile(dictionary: dictionary)
     }
 }
 
