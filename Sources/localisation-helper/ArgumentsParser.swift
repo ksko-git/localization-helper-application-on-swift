@@ -22,11 +22,11 @@ class ArgumentsParser: ArgumentsParserProtocol {
             case let command as Commands.Delete:
                 return .delete(key: command.key, language: command.language)                
             default:
-                return .exit
+                return .help(message: Commands.helpMessage())
             }
         }
         catch {
-            return .exit
+            return .help(message: Commands.helpMessage())
         }
     }
 }

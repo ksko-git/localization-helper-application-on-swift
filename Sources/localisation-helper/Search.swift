@@ -10,11 +10,11 @@ import Foundation
 class Search: SearchProtocol {
     
     var output: TerminalOutput
-    let dict: Dictionary
+    let dict: DictionaryProtocol
     
-    init() {
-        self.dict = Dictionary()
-        self.output = TerminalOutput()
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+        self.dict = dictionary
+        self.output = terminalOutput
     }
     
     func search(key: String?, language: String?) {

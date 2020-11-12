@@ -9,10 +9,12 @@ import Foundation
 
 class Update: UpdateProtocol {
     
-    var dict: Dictionary
+    var output: TerminalOutput
+    let dict: DictionaryProtocol
     
-    init() {
-        self.dict = Dictionary()
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+        self.dict = dictionary
+        self.output = terminalOutput
     }
     
     func update(newWord: String?, key: String?, language: String?) {
@@ -39,7 +41,8 @@ class Update: UpdateProtocol {
             dictionary[newWord]?[language] = key
             dictionary.updateValue(thisDictionary, forKey: newWord)
         }
-        dict.writeToFile(dictionary: dictionary)
+        dict.write(dictionary: dictionary)
+        output.consoleOutput(word: "Словарь обновлен.")
     }
     
 }

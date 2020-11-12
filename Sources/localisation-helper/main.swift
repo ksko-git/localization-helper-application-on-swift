@@ -2,21 +2,28 @@ import Foundation
 import ArgumentParser
 
 class Container {
+    
+    var parser = ArgumentsParser()
+    var updating = Update(dictionary: Dictionary(), terminalOutput: TerminalOutput())
+    var deleting = Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput())
+    var searching = Search(dictionary: Dictionary(), terminalOutput: TerminalOutput())
+    
     var argumentsParser: ArgumentsParserProtocol {
-        return ArgumentsParser()
+        parser
     }
     var search: SearchProtocol {
-        return Search()
+        searching
     }
     var update: UpdateProtocol {
-        return Update()
+        updating
     }
     var delete: DeleteProtocol {
-        return Delete()
+        deleting
     }
     var message: TerminalOutputProtocol {
         return TerminalOutput()
-    }
+    }  
+    
 }
 
 func main() {
@@ -25,41 +32,14 @@ func main() {
 
     let arguments = container.argumentsParser.parse()
     
-    if case .exit = arguments {
-        container.message.consoleOutput(word: Commands.helpMessage())
-        Commands.exit()
-        
-    } else if case .search(let key, let language) = arguments {
-        if let key: String = key, let language: String = language {
-            container.search.search(key: key, language: language)
-        } else if let key: String = key {
-            container.search.search(key: key, language: nil)
-        } else if let language: String = language {
-            container.search.search(key: nil, language: language)
-        } else {
-            container.search.defaultSearch()
-        }
-        
+    if case .search(let key, let language) = arguments {
+        container.search.search(key: key, language: language)
     } else if case .update(let word, let key, let language) = arguments {
-        if let thisWord = word, let key: String = key, let language: String = language {
-            container.update.update(newWord: thisWord, key: key, language: language)
-        } else if let thisWord = word, let key: String = key {
-            container.update.update(newWord: thisWord, key: key, language: nil)
-        } else if let thisWord = word, let language: String = language {
-            container.update.update(newWord: thisWord, key: nil, language: language)
-        } else {
-            container.message.consoleOutput(word: Commands.helpMessage())
-        }
+        container.update.update(newWord: word, key: key, language: language)
     } else if case .delete(let key, let language) = arguments {
-        if let key: String = key, let language: String = language {
-            container.delete.delete(key: key, language: language)
-        } else if let key: String = key {
-            container.delete.delete(key: key, language: nil)
-        } else if let language: String = language {
-            container.delete.delete(key: nil, language: language)
-        } else {
-            container.message.consoleOutput(word: Commands.helpMessage())
-        }
+        container.delete.delete(key: key, language: language)
+    } else if case .help(let message) = arguments {
+        container.message.consoleOutput(word: message)
     }
     
 }

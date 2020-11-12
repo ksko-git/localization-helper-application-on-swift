@@ -9,10 +9,12 @@ import Foundation
 
 class Delete: DeleteProtocol {
     
-    var dict: Dictionary
+    var output: TerminalOutput
+    let dict: DictionaryProtocol
     
-    init() {
-        self.dict = Dictionary()
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+        self.dict = dictionary
+        self.output = terminalOutput
     }
     
     func delete(key: String?, language: String?) {
@@ -33,7 +35,8 @@ class Delete: DeleteProtocol {
                 }
             }
         }
-        dict.writeToFile(dictionary: dictionary)
+        dict.write(dictionary: dictionary)
+        output.consoleOutput(word: "Слово удалено.")        
     }
 }
 

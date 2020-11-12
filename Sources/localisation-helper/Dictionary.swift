@@ -24,7 +24,7 @@ class Dictionary: DictionaryProtocol {
         return dictionary
     }
 
-    func writeToFile(dictionary: [String: [String: String]]) {
+    func write(dictionary: [String: [String: String]]) {
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
