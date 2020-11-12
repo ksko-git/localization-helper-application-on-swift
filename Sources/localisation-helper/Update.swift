@@ -9,7 +9,7 @@ import Foundation
 
 class Update: UpdateProtocol {
     
-    var output: TerminalOutput
+    var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     
     init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {

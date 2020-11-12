@@ -9,7 +9,7 @@ import Foundation
 
 class Search: SearchProtocol {
     
-    var output: TerminalOutput
+    var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     
     init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
@@ -27,7 +27,7 @@ class Search: SearchProtocol {
         for (englishWord, wordsArray) in dictionary {
             // -l
             if key == nil, let language: String = language, let word = wordsArray[language.lowercased()] {
-                output.outputTemplates(variant: false, firstArgument: englishWord, secondArgument: word)
+                output.outputTemplates(variant: TemplateOptions.equalSign, firstArgument: englishWord, secondArgument: word)
                 isInDictionary = true
             }
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
@@ -35,7 +35,7 @@ class Search: SearchProtocol {
                     for (thisLanguage, thisTranslation) in wordsArray {
                         // -k
                         if language == nil {
-                            output.outputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: thisTranslation)
+                            output.outputTemplates(variant: TemplateOptions.colon, firstArgument: dictionaryLanguage, secondArgument: thisTranslation)
                             isInDictionary = true
                         // -k -l
                         } else if let language: String = language, thisLanguage == language.lowercased() {
@@ -54,7 +54,7 @@ class Search: SearchProtocol {
         for (englishWord, wordsArray) in dictionary {
             output.consoleOutput(word: englishWord)
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
-                output.outputTemplates(variant: true, firstArgument: dictionaryLanguage, secondArgument: dictionaryTranslation)
+                output.outputTemplates(variant: TemplateOptions.colon, firstArgument: dictionaryLanguage, secondArgument: dictionaryTranslation)
             }
         }
     }

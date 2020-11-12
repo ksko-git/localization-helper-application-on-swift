@@ -3,25 +3,20 @@ import ArgumentParser
 
 class Container {
     
-    var parser = ArgumentsParser()
-    var updating = Update(dictionary: Dictionary(), terminalOutput: TerminalOutput())
-    var deleting = Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput())
-    var searching = Search(dictionary: Dictionary(), terminalOutput: TerminalOutput())
-    
     var argumentsParser: ArgumentsParserProtocol {
-        parser
+        ArgumentsParser()
     }
     var search: SearchProtocol {
-        searching
+        Search(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
     }
     var update: UpdateProtocol {
-        updating
+        Update(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
     }
     var delete: DeleteProtocol {
-        deleting
+        Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
     }
     var message: TerminalOutputProtocol {
-        return TerminalOutput()
+        TerminalOutput(dictionary: Dictionary())
     }  
     
 }
