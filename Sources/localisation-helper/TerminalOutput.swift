@@ -16,12 +16,12 @@ class TerminalOutput: TerminalOutputProtocol {
     }
     
     func consoleOutput(word: String) {
-        return print(word)
+        print(word)
     }
     
     func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {
         
-        variant == TemplateOptions.colon
+        variant == .colon
             ? print("    \(firstArgument): \(secondArgument)")
             : print("\(firstArgument) = \(secondArgument)")        
     }
