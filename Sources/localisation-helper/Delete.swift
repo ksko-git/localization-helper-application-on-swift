@@ -7,20 +7,37 @@
 
 import Foundation
 
-func removeFromDictionaryKL(key: String, language: String) -> [String: [String: String]] {
-    for (englishWord, wordsArray) in dictionary {
-        for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
-            // -k -l
-            if language.lowercased() == dictionaryLanguage.lowercased()
-                && key.lowercased() == dictionaryTranslation.lowercased() {
-                dictionary.removeValue(forKey: englishWord)
-            // -k || -l
-            } else if key.lowercased() == dictionaryTranslation.lowercased()
-                        || language.lowercased() == dictionaryLanguage.lowercased() {
-                dictionary[englishWord]?[dictionaryLanguage] = nil
+class Delete: DeleteProtocol {
+    
+    var output: TerminalOutput
+    let dict: DictionaryProtocol
+    
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+        self.dict = dictionary
+        self.output = terminalOutput
+    }
+    
+    func delete(key: String?, language: String?) {
+        var dictionary = dict.getDictionary()
+        
+        for (englishWord, wordsArray) in dictionary {
+            for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
+                // -k -l
+                if let language: String = language, let key: String = key,
+                   language.lowercased() == dictionaryLanguage.lowercased()
+                    && key.lowercased() == dictionaryTranslation.lowercased() {
+                    dictionary.removeValue(forKey: englishWord)
+                // -k || -l
+                } else if let language: String = language, let key: String = key,
+                          key.lowercased() == dictionaryTranslation.lowercased()
+                            || language.lowercased() == dictionaryLanguage.lowercased() {
+                    dictionary[englishWord]?[dictionaryLanguage] = nil
+                }
             }
         }
+        dict.write(dictionary: dictionary)
+        output.consoleOutput(word: "Слово удалено.")        
     }
-//    print(dictionary)
-    return dictionary
 }
+
+

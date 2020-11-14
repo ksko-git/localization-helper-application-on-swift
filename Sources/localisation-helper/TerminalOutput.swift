@@ -7,22 +7,29 @@
 
 import Foundation
 
-// Флаг для Not found
-var isInDictionary = false
-// Вывод в консоль
-func consoleOutput(word: String) {
-    return print(word)
-}
-// Шаблоны для вывода в консоль
-func outputTemplates(variant: Bool, firstArgument: String, secondArgument: String) {
-    isInDictionary = true
-    variant == true
-        ? print("    \(firstArgument): \(secondArgument)")
-        : print("\(firstArgument) = \(secondArgument)")
-}
-// Вывод Not Found
-func outputNotFound(isInDictionary: Bool) {
-    guard isInDictionary == true else {
-        return print("Not found")
+class TerminalOutput: TerminalOutputProtocol {
+    
+    let dict: DictionaryProtocol
+    
+    init(dictionary: DictionaryProtocol) {
+        self.dict = dictionary
     }
+    
+    func consoleOutput(word: String) {
+        print(word)
+    }
+    
+    func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {
+        
+        variant == .colon
+            ? print("    \(firstArgument): \(secondArgument)")
+            : print("\(firstArgument) = \(secondArgument)")        
+    }
+    
+    func outputNotFound(isInDictionary: Bool) {
+        if isInDictionary == false {
+            print("Not found")
+        }
+    }
+    
 }
