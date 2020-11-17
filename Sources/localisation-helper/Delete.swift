@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Delete: DeleteProtocol {
+public class Delete: DeleteProtocol {
     
     var output: TerminalOutput
     let dict: DictionaryProtocol
@@ -17,7 +17,7 @@ class Delete: DeleteProtocol {
         self.output = terminalOutput
     }
     
-    func delete(key: String?, language: String?) {
+    public func delete(key: String?, language: String?) {
         var dictionary = dict.getDictionary()
         
         for (englishWord, wordsArray) in dictionary {

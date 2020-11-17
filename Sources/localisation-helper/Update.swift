@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Update: UpdateProtocol {
+public class Update: UpdateProtocol {
     
     var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
@@ -17,7 +17,7 @@ class Update: UpdateProtocol {
         self.output = terminalOutput
     }
     
-    func update(newWord: String?, key: String?, language: String?) {
+    public func update(newWord: String?, key: String?, language: String?) {
 
         var dictionary = dict.getDictionary()
         

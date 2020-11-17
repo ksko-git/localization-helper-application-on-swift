@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Search: SearchProtocol {
+public class Search: SearchProtocol {
     
     let output: TerminalOutputProtocol
     let dict: DictionaryProtocol
@@ -19,7 +19,7 @@ class Search: SearchProtocol {
         self.isInDictionary = false
     }
     
-    func search(key: String?, language: String?) {
+    public func search(key: String?, language: String?) {
         
         let dictionary = dict.getDictionary()
         
@@ -56,7 +56,7 @@ class Search: SearchProtocol {
         output.outputNotFound(isInDictionary: isInDictionary)
     }
 
-    func defaultSearch() {
+    public func defaultSearch() {
         
         let dictionary = dict.getDictionary()
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TerminalOutputProtocol {
+public protocol TerminalOutputProtocol {
     func consoleOutput(word: String)
     func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String)
     func outputNotFound(isInDictionary: Bool)

@@ -8,9 +8,9 @@
 import Foundation
 import ArgumentParser
 
-class ArgumentsParser: ArgumentsParserProtocol {
+public class ArgumentsParser: ArgumentsParserProtocol {
     
-    func parse() -> Arguments {
+    public func parse() -> Arguments {
         do {
             let command = try Commands.parseAsRoot()
             

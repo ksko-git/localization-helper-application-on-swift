@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SearchProtocol {
+public protocol SearchProtocol {
     func search(key: String?, language: String?)
     func defaultSearch()
 }

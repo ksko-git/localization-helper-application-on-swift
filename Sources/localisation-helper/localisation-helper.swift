@@ -1,7 +1,14 @@
+//
+//  localisation-helper.swift
+//  
+//
+//  Created by Ксюся on 17.11.2020.
+//
+
 import Foundation
 import ArgumentParser
 
-class Container {
+public class Container {
     
     var argumentsParser: ArgumentsParserProtocol {
         ArgumentsParser()
@@ -17,11 +24,11 @@ class Container {
     }
     var message: TerminalOutputProtocol {
         TerminalOutput(dictionary: Dictionary())
-    }  
+    }
     
 }
 
-func main() {
+public func main() {
     
     let container = Container()
 
@@ -38,7 +45,3 @@ func main() {
     }
     
 }
-
-main()
-
-

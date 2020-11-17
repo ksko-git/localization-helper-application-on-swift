@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Dictionary: DictionaryProtocol {
+public class Dictionary: DictionaryProtocol {
     
     let path: String
     
@@ -15,7 +15,7 @@ class Dictionary: DictionaryProtocol {
         self.path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
     }
     
-    func getDictionary() -> [String: [String: String]] {
+    public func getDictionary() -> [String: [String: String]] {
         var dictionary: [String: [String: String]] = [:]
         
         if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
@@ -24,7 +24,7 @@ class Dictionary: DictionaryProtocol {
         return dictionary
     }
 
-    func write(dictionary: [String: [String: String]]) {
+    public func write(dictionary: [String: [String: String]]) {
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
