@@ -8,17 +8,33 @@ swift build
 ```
 ## Запуск проекта
 ```
-swift run localisation-helper
+swift run Run
 ```
-### swift run localisation-helper --help
 ```
-OVERVIEW: Localisation helper terminal aplication.
+OVERVIEW: Localisation helper application.
 
-USAGE: translate [--key <key>] [--language <language>]
+USAGE: commands <subcommand>
 
 OPTIONS:
-  -k, --key <key>         The word you want to translate. 
-  -l, --language <language>
-                          The language you want to translate the word into. 
   -h, --help              Show help information.
+
+SUBCOMMANDS:
+  search
+  update
+  delete
+
+  See 'commands help <subcommand>' for detailed help.
+```
+### swift run Run search
+```
+day
+    ru: День
+    en: Day
+    pt: Dia
+terms
+    pt: Termos
+    en: Terms
+hello
+    ru: Привет
+    en: Hello
 ```
