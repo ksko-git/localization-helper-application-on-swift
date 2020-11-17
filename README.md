@@ -25,7 +25,9 @@ SUBCOMMANDS:
 
   See 'commands help <subcommand>' for detailed help.
 ```
-### swift run Run search
+```
+swift run Run search
+```
 ```
 day
     ru: День
