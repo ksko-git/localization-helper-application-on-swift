@@ -14,16 +14,16 @@ public class Container {
         ArgumentsParser()
     }
     var search: SearchProtocol {
-        Search(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
+        Search(dictionary: Dictionary(), terminalOutput: TerminalOutput())
     }
     var update: UpdateProtocol {
-        Update(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
+        Update(dictionary: Dictionary(), terminalOutput: TerminalOutput())
     }
     var delete: DeleteProtocol {
-        Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput(dictionary: Dictionary()))
+        Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput())
     }
     var message: TerminalOutputProtocol {
-        TerminalOutput(dictionary: Dictionary())
+        TerminalOutput()
     }
     
 }
@@ -37,14 +37,11 @@ public func localisationHelper() -> Int {
     var result = ValidationResult.SomethingGoWrong
     
     if case .search(let key, let language) = arguments {
-        container.search.search(key: key, language: language)
-        result = .SuccessfullSearch
+        result = container.search.search(key: key, language: language)
     } else if case .update(let word, let key, let language) = arguments {
-        container.update.update(newWord: word, key: key, language: language)
-        result = .SuccessfullUpdate
+        result = container.update.update(newWord: word, key: key, language: language)
     } else if case .delete(let key, let language) = arguments {
-        container.delete.delete(key: key, language: language)
-        result = .SuccessfullDelete
+        result = container.delete.delete(key: key, language: language)
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
         result = .SuccessfullHelpMessage

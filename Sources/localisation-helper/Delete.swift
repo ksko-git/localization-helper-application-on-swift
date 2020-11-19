@@ -9,19 +9,20 @@ import Foundation
 
 public class Delete: DeleteProtocol {
     
-    var output: TerminalOutput
+    var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     
-    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutputProtocol) {
         self.dict = dictionary
         self.output = terminalOutput
     }
     
-    public func delete(key: String?, language: String?) {
+    public func delete(key: String?, language: String?) -> ValidationResult {
         var dictionary = dict.getDictionary()
         
         guard key != nil && language != nil else {
-            return output.consoleOutput(word: "Удаление только по одному из параметров осуществить невозможно.\nВведите слово и язык.")
+            output.consoleOutput(word: "Удаление только по одному из параметров осуществить невозможно.\nВведите слово и язык.")
+            return .SomethingGoWrong
         }
         
         for (englishWord, wordsArray) in dictionary {
@@ -33,7 +34,8 @@ public class Delete: DeleteProtocol {
             }
         }
         dict.write(dictionary: dictionary)
-        output.consoleOutput(word: "Слово удалено.")        
+        output.consoleOutput(word: "Слово удалено.")
+        return .SuccessfullDelete
     }
 }
 

@@ -13,13 +13,13 @@ public class Search: SearchProtocol {
     let dict: DictionaryProtocol
     var isInDictionary: Bool
     
-    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutputProtocol) {
         self.dict = dictionary
         self.output = terminalOutput
         self.isInDictionary = false
     }
     
-    public func search(key: String?, language: String?) {
+    public func search(key: String?, language: String?) -> ValidationResult {
         
         let dictionary = dict.getDictionary()
         
@@ -54,6 +54,7 @@ public class Search: SearchProtocol {
             }
         }
         output.outputNotFound(isInDictionary: isInDictionary)
+        return .SuccessfullSearch
     }
 
     public func defaultSearch() {

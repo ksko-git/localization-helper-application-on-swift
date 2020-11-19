@@ -120,6 +120,5 @@ class TestArgumentParser: XCTestCase {
         ("testUdpateOptionWithTwoKeys", testUdpateOptionWithTwoKeys),
         ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
     ]
-
     
 }

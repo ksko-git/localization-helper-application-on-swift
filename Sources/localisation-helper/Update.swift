@@ -12,12 +12,12 @@ public class Update: UpdateProtocol {
     var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     
-    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutputProtocol) {
         self.dict = dictionary
         self.output = terminalOutput
     }
     
-    public func update(newWord: String, key: String, language: String) {
+    public func update(newWord: String, key: String, language: String) -> ValidationResult {
 
         var dictionary = dict.getDictionary()
         
@@ -42,5 +42,6 @@ public class Update: UpdateProtocol {
         }        
         dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Словарь обновлен.")
+        return .SuccessfullUpdate
     }
 }

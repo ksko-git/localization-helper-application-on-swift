@@ -9,12 +9,6 @@ import Foundation
 
 public class TerminalOutput: TerminalOutputProtocol {
     
-    let dict: DictionaryProtocol
-    
-    init(dictionary: DictionaryProtocol) {
-        self.dict = dictionary
-    }
-    
     public func consoleOutput(word: String) {
         print(word)
     }
