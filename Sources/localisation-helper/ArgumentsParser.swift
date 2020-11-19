@@ -9,10 +9,10 @@ import Foundation
 import ArgumentParser
 
 public class ArgumentsParser: ArgumentsParserProtocol {
-    
-    public func parse() -> Arguments {
+
+    public func parse(_ arguments: [String]?) -> Arguments {
         do {
-            let command = try Commands.parseAsRoot()
+            let command = try Commands.parseAsRoot(arguments)
             
             switch command {
             case let command as Commands.Search:
@@ -50,13 +50,13 @@ extension Commands {
     
     struct Update: ParsableCommand {
         @Argument
-        var word: String?
+        var word: String
         
         @Option(name: .shortAndLong)
-        var key: String?
+        var key: String
         
         @Option(name: .shortAndLong)
-        var language: String?
+        var language: String
     }
     
     struct Delete: ParsableCommand {

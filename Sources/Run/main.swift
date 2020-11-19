@@ -1,6 +1,7 @@
 import Foundation
 import localisation_helper
 
-main()
+let result = localisationHelper()
+exit(Int32(result))
 
 

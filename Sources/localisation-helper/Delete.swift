@@ -20,19 +20,16 @@ public class Delete: DeleteProtocol {
     public func delete(key: String?, language: String?) {
         var dictionary = dict.getDictionary()
         
+        guard key != nil && language != nil else {
+            return output.consoleOutput(word: "Удаление только по одному из параметров осуществить невозможно.\nВведите слово и язык.")
+        }
+        
         for (englishWord, wordsArray) in dictionary {
-            for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
-                // -k -l
-                if let language: String = language, let key: String = key,
-                   language.lowercased() == dictionaryLanguage.lowercased()
-                    && key.lowercased() == dictionaryTranslation.lowercased() {
-                    dictionary.removeValue(forKey: englishWord)
-                // -k || -l
-                } else if let language: String = language, let key: String = key,
-                          key.lowercased() == dictionaryTranslation.lowercased()
-                            || language.lowercased() == dictionaryLanguage.lowercased() {
-                    dictionary[englishWord]?[dictionaryLanguage] = nil
-                }
+            var wordsArray = wordsArray
+            // -k -l
+            if let language: String = language, let key: String = key, wordsArray[language]?.lowercased() == key.lowercased() {
+                wordsArray[language] = nil
+                dictionary[englishWord] = wordsArray
             }
         }
         dict.write(dictionary: dictionary)

@@ -28,20 +28,31 @@ public class Container {
     
 }
 
-public func main() {
+public func localisationHelper() -> Int {
     
     let container = Container()
 
-    let arguments = container.argumentsParser.parse()
+    let arguments = container.argumentsParser.parse(nil)
+    
+    var result = ValidationResult.SomethingGoWrong
     
     if case .search(let key, let language) = arguments {
         container.search.search(key: key, language: language)
+        result = .SuccessfullSearch
     } else if case .update(let word, let key, let language) = arguments {
         container.update.update(newWord: word, key: key, language: language)
+        result = .SuccessfullUpdate
     } else if case .delete(let key, let language) = arguments {
         container.delete.delete(key: key, language: language)
+        result = .SuccessfullDelete
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
+        result = .SuccessfullHelpMessage
     }
     
+    guard result != .SomethingGoWrong else {
+        return 1
+    }
+    
+    return 0
 }

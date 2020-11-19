@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol ArgumentsParserProtocol {
-    func parse() -> Arguments
+    func parse(_ arguments: [String]?) -> Arguments
 }
 

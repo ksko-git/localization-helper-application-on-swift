@@ -3,5 +3,7 @@ import XCTest
 import localisation_helperTests
 
 var tests = [XCTestCaseEntry]()
-tests += localisation_helperTests.allTests()
+tests += allTests()
 XCTMain(tests)
+
+
