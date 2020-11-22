@@ -1,6 +1,6 @@
 
 allTests=()
-amountTests=13
+amountTests=14
 allRuntimes=0
 
 passedTestsCount=0
@@ -19,6 +19,7 @@ allTests[9]="hello -k update"
 allTests[10]="search -k hello -l"
 allTests[11]="-k -l search"
 allTests[12]="-k -l delete"
+allTests[13]="-h"
 
 
 for ((i = 0; i < "$amountTests"; i++)); do
