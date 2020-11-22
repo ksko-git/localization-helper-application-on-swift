@@ -10,13 +10,11 @@
 class MockDictionary: DictionaryProtocol {
     
     var writeParameters: ([String : [String : String]])!
-    var writeResult: ()
     var writeCallsCount = 0
     
     func write(dictionary: [String : [String : String]]) {
         writeCallsCount += 1
         writeParameters = ["hello": ["en": "hello"]]
-        return writeResult
     }
     
     var getDictionaryParameters: ()!

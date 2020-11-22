@@ -10,21 +10,23 @@ import ArgumentParser
 
 public class Container {
     
+    var dict = Dictionary()
+    
+    var message: TerminalOutputProtocol {
+        TerminalOutput()
+    }
     var argumentsParser: ArgumentsParserProtocol {
         ArgumentsParser()
     }
     var search: SearchProtocol {
-        Search(dictionary: Dictionary(), terminalOutput: TerminalOutput())
+        Search(dictionary: dict, terminalOutput: message)
     }
     var update: UpdateProtocol {
-        Update(dictionary: Dictionary(), terminalOutput: TerminalOutput())
+        Update(dictionary: dict, terminalOutput: message)
     }
     var delete: DeleteProtocol {
-        Delete(dictionary: Dictionary(), terminalOutput: TerminalOutput())
-    }
-    var message: TerminalOutputProtocol {
-        TerminalOutput()
-    }
+        Delete(dictionary: dict, terminalOutput: message)
+    }  
     
 }
 
@@ -34,7 +36,7 @@ public func localisationHelper() -> Int {
 
     let arguments = container.argumentsParser.parse(nil)
     
-    var result = ValidationResult.SomethingGoWrong
+    var result = ValidationResult.somethingWentWrong
     
     if case .search(let key, let language) = arguments {
         result = container.search.search(key: key, language: language)
@@ -44,12 +46,20 @@ public func localisationHelper() -> Int {
         result = container.delete.delete(key: key, language: language)
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
-        result = .SuccessfullHelpMessage
+        result = .success
     }
     
-    guard result != .SomethingGoWrong else {
+    switch result {
+    case .success:
+        return 0
+    case .somethingWentWrong:
         return 1
+    case .dictionaryIsEmpty:
+        return 2
+    case .onlyOneParameterEnteredToDelete:
+        return 3
+    case .parseWentWrong:
+        return 4
     }
     
-    return 0
 }

@@ -23,6 +23,7 @@ class TestSearchOption: XCTest {
     }
 
     override func tearDown() {
+        search = nil
         dict = nil
         output = nil
         super.tearDown()
@@ -32,36 +33,49 @@ class TestSearchOption: XCTest {
         
         let result = search.search(key: nil, language: nil)
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullSearch)
+        XCTAssertEqual(result, ValidationResult.success)
     }
 
     func testSearchOptionWithTwoKeys() {
         
         let result = search.search(key: "hello", language: "ru")
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullSearch)
+        XCTAssertEqual(result, ValidationResult.success)
     }
     
     func testSearchOptionWithKKey() {
         
         let result = search.search(key: "hello", language: nil)
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullSearch)
+        XCTAssertEqual(result, ValidationResult.success)
     }
     
     func testSearchOptionWithLKey() {
         
         let result = search.search(key: nil, language: "ru")
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullSearch)
+        XCTAssertEqual(result, ValidationResult.success)
     }
     
+    func testSearchOptionWithNoDictionary() {
+        
+        let expectedError = ValidationResult.dictionaryIsEmpty
+        
+        let result = search.search(key: "hello", language: nil)
+        
+        if dict.getDictionary().isEmpty {
+            XCTFail(expectedError.errorDescription!)
+        }
+        
+        XCTAssertEqual(result, ValidationResult.success)
+    }
     
     static var allTests = [
         ("testSearchOptionKeyless", testSearchOptionKeyless),
         ("testSearchOptionWithTwoKeys", testSearchOptionWithTwoKeys),
         ("testSearchOptionWithKKey", testSearchOptionWithKKey),
-        ("testSearchOptionWithLKey", testSearchOptionWithLKey)
+        ("testSearchOptionWithLKey", testSearchOptionWithLKey),
+        ("testSearchOptionWithNoDictionary", testSearchOptionWithNoDictionary)
     ]
 
 }

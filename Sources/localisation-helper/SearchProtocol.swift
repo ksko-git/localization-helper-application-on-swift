@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol SearchProtocol {
+protocol SearchProtocol {
     func search(key: String?, language: String?) -> ValidationResult
-    func defaultSearch()
+    func defaultSearch(dictionary: [String: [String: String]])
 }

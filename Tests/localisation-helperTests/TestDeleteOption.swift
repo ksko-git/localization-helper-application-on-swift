@@ -23,21 +23,46 @@ class TestDeleteOption: XCTest {
     }
 
     override func tearDown() {
+        delete = nil
         dict = nil
-        output = nil
+        output = nil        
         super.tearDown()
     }
 
     func testDeleteOptionWithTwoKeys() {
         
-        let result = delete.delete(key: "hello", language: "ru")
+        let result = delete.delete(key: "hello", language: "en")
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullSearch)
+        XCTAssertEqual(result, ValidationResult.success)
     }
     
+    func testDeleteOptionWithOneKey() {
+        
+        let expectedError = ValidationResult.onlyOneParameterEnteredToDelete
+        
+        let result = delete.delete(key: "hello", language: nil)
+        
+        XCTAssertEqual(result, expectedError)
+        XCTAssertTrue(true, expectedError.errorDescription!)
+    }
+    
+    func testDeleteOptionWithNoDictionary() {
+        
+        let expectedError = ValidationResult.dictionaryIsEmpty
+        
+        let result = delete.delete(key: "hello", language: nil)
+        
+        if dict.getDictionary().isEmpty {
+            XCTFail(expectedError.errorDescription!)
+        }
+        
+        XCTAssertEqual(result, ValidationResult.success)
+    }
     
     static var allTests = [
-        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
+        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+        ("testDeleteOptionWithOneKey", testDeleteOptionWithOneKey),
+        ("testDeleteOptionWithNoDictionary", testDeleteOptionWithNoDictionary)
     ]
 
 }

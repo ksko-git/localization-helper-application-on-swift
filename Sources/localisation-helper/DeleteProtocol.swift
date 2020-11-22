@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol DeleteProtocol {
+protocol DeleteProtocol {
     func delete(key: String?, language: String?) -> ValidationResult
 }

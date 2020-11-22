@@ -21,6 +21,10 @@ public class Update: UpdateProtocol {
 
         var dictionary = dict.getDictionary()
         
+        guard !dictionary.isEmpty else {
+            return .dictionaryIsEmpty
+        }
+        
         var isInDictionary = false
         var thisDictionary: [String: String] = [:]
         
@@ -42,6 +46,6 @@ public class Update: UpdateProtocol {
         }        
         dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Словарь обновлен.")
-        return .SuccessfullUpdate
+        return .success
     }
 }

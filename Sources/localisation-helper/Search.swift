@@ -23,8 +23,12 @@ public class Search: SearchProtocol {
         
         let dictionary = dict.getDictionary()
         
+        guard !dictionary.isEmpty else {
+            return .dictionaryIsEmpty
+        }
+        
         if key == nil && language == nil {
-            defaultSearch()
+            defaultSearch(dictionary: dictionary)
             isInDictionary = true
         }
         
@@ -54,10 +58,10 @@ public class Search: SearchProtocol {
             }
         }
         output.outputNotFound(isInDictionary: isInDictionary)
-        return .SuccessfullSearch
+        return .success
     }
 
-    public func defaultSearch() {
+    public func defaultSearch(dictionary: [String: [String: String]]) {
         
         let dictionary = dict.getDictionary()
         

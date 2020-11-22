@@ -18,11 +18,15 @@ public class Delete: DeleteProtocol {
     }
     
     public func delete(key: String?, language: String?) -> ValidationResult {
+        
         var dictionary = dict.getDictionary()
         
+        guard !dictionary.isEmpty else {
+            return .dictionaryIsEmpty
+        }
+        
         guard key != nil && language != nil else {
-            output.consoleOutput(word: "Удаление только по одному из параметров осуществить невозможно.\nВведите слово и язык.")
-            return .SomethingGoWrong
+            return .onlyOneParameterEnteredToDelete
         }
         
         for (englishWord, wordsArray) in dictionary {
@@ -35,7 +39,7 @@ public class Delete: DeleteProtocol {
         }
         dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Слово удалено.")
-        return .SuccessfullDelete
+        return .success
     }
 }
 

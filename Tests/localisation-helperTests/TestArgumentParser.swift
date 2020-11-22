@@ -29,9 +29,8 @@ class TestArgumentParser: XCTestCase {
             case .search(let key, let language):
                 XCTAssertEqual(key, "day")
                 XCTAssertEqual(language, "pt")
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
     }
@@ -44,9 +43,8 @@ class TestArgumentParser: XCTestCase {
             case .search(let key, let language):
                 XCTAssertEqual(key, "day")
                 XCTAssertEqual(language, nil)
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
     }
@@ -59,9 +57,8 @@ class TestArgumentParser: XCTestCase {
             case .search(let key, let language):
                 XCTAssertEqual(key, nil)
                 XCTAssertEqual(language, "pt")
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
     }
@@ -74,9 +71,8 @@ class TestArgumentParser: XCTestCase {
             case .search(let key, let language):
                 XCTAssertEqual(key, nil)
                 XCTAssertEqual(language, nil)
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
     }
@@ -90,9 +86,8 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(word, "hi")
                 XCTAssertEqual(key, "hello")
                 XCTAssertEqual(language, "en")
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
     }
@@ -105,11 +100,88 @@ class TestArgumentParser: XCTestCase {
             case .delete(let key, let language):
                 XCTAssertEqual(key, "hello")
                 XCTAssertEqual(language, "en")
-
             default:
-                XCTFail()
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
             }
 
+    }
+    
+    func testParseFailWithNoArguments() throws {
+        
+        let arguments = argumentsParser.parse([])
+
+        switch arguments {
+            case .help(let message):
+                XCTAssertEqual(message, Commands.helpMessage())
+                XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
+    }
+    
+    func testParseFailWithSearchArgument() throws {
+        
+        let arguments = argumentsParser.parse(["-l", "search"])
+
+        switch arguments {
+            case .help(let message):
+                XCTAssertEqual(message, Commands.helpMessage())
+                XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
+    }
+    
+    func testParseFailWithUpdateArgument() throws {
+        
+        let arguments = argumentsParser.parse(["hello", "update"])
+
+        switch arguments {
+            case .help(let message):
+                XCTAssertEqual(message, Commands.helpMessage())
+                XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
+    }
+    
+    func testParseFailWithDeleteArgument() throws {
+        
+        let arguments = argumentsParser.parse(["-k", "-l", "delete"])
+
+        switch arguments {
+            case .help(let message):
+                XCTAssertEqual(message, Commands.helpMessage())
+                XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
+    }
+    
+    func testParseFailWithDeleteArgumentWithoutKeys() throws {
+
+        let arguments = argumentsParser.parse(["delete"])
+
+        switch arguments {
+            case .delete(let key, let language):
+                XCTAssertEqual(key, nil)
+                XCTAssertEqual(language, nil)
+                XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
+    }
+    
+    func testHelpOption() throws {
+
+        let arguments = argumentsParser.parse(["-h"])
+
+        switch arguments {
+            case .help(let message):
+                XCTAssertEqual(message, Commands.helpMessage())
+            default:
+                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+        }
     }
     
     static var allTests = [
@@ -118,7 +190,13 @@ class TestArgumentParser: XCTestCase {
         ("testSearchOptionWithLKey", testSearchOptionWithLKey),
         ("testSearchOptionWithTwoNils", testSearchOptionWithTwoNils),
         ("testUdpateOptionWithTwoKeys", testUdpateOptionWithTwoKeys),
-        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
+        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+        ("testParseFailWithNoArguments", testParseFailWithNoArguments),
+        ("testParseFailWithSearchArgument", testParseFailWithSearchArgument),
+        ("testParseFailWithUpdateArgument", testParseFailWithUpdateArgument),
+        ("testParseFailWithDeleteArgument", testParseFailWithDeleteArgument),
+        ("testParseFailWithDeleteArgumentWithoutKeys", testParseFailWithDeleteArgumentWithoutKeys),
+        ("testHelpOption", testHelpOption)
     ]
     
 }

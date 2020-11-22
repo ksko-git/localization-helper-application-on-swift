@@ -23,6 +23,7 @@ class TestUpdateOption: XCTest {
     }
 
     override func tearDown() {
+        update = nil
         dict = nil
         output = nil
         super.tearDown()
@@ -32,12 +33,25 @@ class TestUpdateOption: XCTest {
         
         let result = update.update(newWord: "hi", key: "hello", language: "en")
         
-        XCTAssertEqual(result, ValidationResult.SuccessfullUpdate)
+        XCTAssertEqual(result, ValidationResult.success)
     }
     
+    func testUpdateOptionWithNoDictionary() {
+        
+        let expectedError = ValidationResult.dictionaryIsEmpty
+        
+        let result = update.update(newWord: "hi", key: "hello", language: "en")
+        
+        if dict.getDictionary().isEmpty {
+            XCTFail(expectedError.errorDescription!)
+        }
+        
+        XCTAssertEqual(result, ValidationResult.success)
+    }
     
     static var allTests = [
-        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
+        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+        ("testUpdateOptionWithNoDictionary", testUpdateOptionWithNoDictionary)
     ]
 
 }
