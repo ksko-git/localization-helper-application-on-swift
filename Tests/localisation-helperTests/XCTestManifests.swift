@@ -1,13 +1,13 @@
 import XCTest
 
-#if !canImport(ObjectiveC)
+#if !os(macOS)
 public func allTests() -> [XCTestCaseEntry] {
     return [
-        testCase(localisation_helperTests.allTests),
         testCase(TestArgumentParser.allTests),
-        testCase(TestSearchOption.allTests),
         testCase(TestDeleteOption.allTests),
-        testCase(TestUpdateOption.allTests)        
+        testCase(TestSearchOption.allTests),
+        testCase(TestUpdateOption.allTests),
+        testCase(TestDictionary.allTests),
     ]
 }
 #endif

@@ -9,5 +9,5 @@ import Foundation
 
 public protocol DictionaryProtocol {
     func getDictionary() -> [String: [String: String]]
-    func write(dictionary: [String: [String: String]])
+    func write(dictionary: [String: [String: String]]) throws
 }

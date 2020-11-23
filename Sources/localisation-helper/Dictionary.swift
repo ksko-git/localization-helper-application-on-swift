@@ -24,12 +24,12 @@ public class Dictionary: DictionaryProtocol {
         return dictionary
     }
 
-    public func write(dictionary: [String: [String: String]]) {
+    public func write(dictionary: [String: [String: String]]) throws {
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
         } catch {
-            print("Не удалось записать.")
+            throw ValidationResult.failedToWrite
         }        
     }
 

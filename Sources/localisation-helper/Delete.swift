@@ -17,16 +17,16 @@ public class Delete: DeleteProtocol {
         self.output = terminalOutput
     }
     
-    public func delete(key: String?, language: String?) -> ValidationResult {
+    public func delete(key: String?, language: String?) throws {
         
         var dictionary = dict.getDictionary()
         
         guard !dictionary.isEmpty else {
-            return .dictionaryIsEmpty
+            throw ValidationResult.dictionaryIsEmpty
         }
         
         guard key != nil && language != nil else {
-            return .onlyOneParameterEnteredToDelete
+            throw ValidationResult.onlyOneParameterEnteredToDelete
         }
         
         for (englishWord, wordsArray) in dictionary {
@@ -37,9 +37,8 @@ public class Delete: DeleteProtocol {
                 dictionary[englishWord] = wordsArray
             }
         }
-        dict.write(dictionary: dictionary)
+        try dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Слово удалено.")
-        return .success
     }
 }
 

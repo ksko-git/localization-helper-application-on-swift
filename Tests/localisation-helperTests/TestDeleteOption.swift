@@ -8,7 +8,7 @@
 @testable import localisation_helper
 import XCTest
 
-class TestDeleteOption: XCTest {
+final class TestDeleteOption: XCTestCase {
 
     var delete: Delete!
 
@@ -29,40 +29,40 @@ class TestDeleteOption: XCTest {
         super.tearDown()
     }
 
-    func testDeleteOptionWithTwoKeys() {
-        
-        let result = delete.delete(key: "hello", language: "en")
-        
-        XCTAssertEqual(result, ValidationResult.success)
-    }
+//    func testDeleteOptionWithTwoKeys() {
+//
+//        let result = delete.delete(key: "hello", language: "en")
+//
+//        XCTAssertEqual(result, ValidationResult.success)
+//    }
     
-    func testDeleteOptionWithOneKey() {
-        
-        let expectedError = ValidationResult.onlyOneParameterEnteredToDelete
-        
-        let result = delete.delete(key: "hello", language: nil)
-        
-        XCTAssertEqual(result, expectedError)
-        XCTAssertTrue(true, expectedError.errorDescription!)
-    }
+//    func testDeleteOptionWithOneKey() {
+//
+//        let expectedError = ValidationResult.onlyOneParameterEnteredToDelete
+//
+//        let result = delete.delete(key: "hello", language: nil)
+//
+//        XCTAssertEqual(result, expectedError)
+//        XCTAssertTrue(true, expectedError.errorDescription!)
+//    }
     
-    func testDeleteOptionWithNoDictionary() {
-        
-        let expectedError = ValidationResult.dictionaryIsEmpty
-        
-        let result = delete.delete(key: "hello", language: nil)
-        
-        if dict.getDictionary().isEmpty {
-            XCTFail(expectedError.errorDescription!)
-        }
-        
-        XCTAssertEqual(result, ValidationResult.success)
-    }
+//    func testDeleteOptionWithNoDictionary() {
+//
+//        let expectedError = ValidationResult.dictionaryIsEmpty
+//
+//        let result = delete.delete(key: "hello", language: nil)
+//
+//        if dict.getDictionary().isEmpty {
+//            XCTFail(expectedError.errorDescription!)
+//        }
+//
+//        XCTAssertEqual(result, ValidationResult.success)
+//    }
     
-    static var allTests = [
-        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
-        ("testDeleteOptionWithOneKey", testDeleteOptionWithOneKey),
-        ("testDeleteOptionWithNoDictionary", testDeleteOptionWithNoDictionary)
-    ]
+//    static var allTests = [
+//        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+//        ("testDeleteOptionWithOneKey", testDeleteOptionWithOneKey),
+//        ("testDeleteOptionWithNoDictionary", testDeleteOptionWithNoDictionary)
+//    ]
 
 }

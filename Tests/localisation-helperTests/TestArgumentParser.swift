@@ -8,7 +8,7 @@
 @testable import localisation_helper
 import XCTest
 
-class TestArgumentParser: XCTestCase {
+final class TestArgumentParser: XCTestCase {
     
     var argumentsParser: ArgumentsParser!
 
@@ -30,7 +30,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, "day")
                 XCTAssertEqual(language, "pt")
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -44,7 +44,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, "day")
                 XCTAssertEqual(language, nil)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -58,7 +58,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, nil)
                 XCTAssertEqual(language, "pt")
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -72,7 +72,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, nil)
                 XCTAssertEqual(language, nil)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -87,7 +87,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, "hello")
                 XCTAssertEqual(language, "en")
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -101,7 +101,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(key, "hello")
                 XCTAssertEqual(language, "en")
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
             }
 
     }
@@ -115,7 +115,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(message, Commands.helpMessage())
                 XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail("Help message is not shown!")
         }
     }
     
@@ -128,7 +128,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(message, Commands.helpMessage())
                 XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail("The search function find something, but not the words from dictionary!")
         }
     }
     
@@ -141,7 +141,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(message, Commands.helpMessage())
                 XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail("The update function refresh something, but not the word!")
         }
     }
     
@@ -154,7 +154,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(message, Commands.helpMessage())
                 XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail("The delete function removed something, but not the word!")
         }
     }
     
@@ -168,7 +168,7 @@ class TestArgumentParser: XCTestCase {
                 XCTAssertEqual(language, nil)
                 XCTAssertTrue(true, ValidationResult.parseWentWrong.errorDescription!)
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail("The delete function removed a word with one key!")
         }
     }
     
@@ -180,7 +180,7 @@ class TestArgumentParser: XCTestCase {
             case .help(let message):
                 XCTAssertEqual(message, Commands.helpMessage())
             default:
-                XCTFail(ValidationResult.somethingWentWrong.errorDescription!)
+                XCTFail(ValidationResult.parseWentWrong.errorDescription!)
         }
     }
     

@@ -30,36 +30,21 @@ public class Container {
     
 }
 
-public func localisationHelper() -> Int {
+public func localisationHelper() throws -> Int {
     
     let container = Container()
 
     let arguments = container.argumentsParser.parse(nil)
     
-    var result = ValidationResult.somethingWentWrong
-    
     if case .search(let key, let language) = arguments {
-        result = container.search.search(key: key, language: language)
+        try container.search.search(key: key, language: language)
     } else if case .update(let word, let key, let language) = arguments {
-        result = container.update.update(newWord: word, key: key, language: language)
+        try container.update.update(newWord: word, key: key, language: language)
     } else if case .delete(let key, let language) = arguments {
-        result = container.delete.delete(key: key, language: language)
+        try container.delete.delete(key: key, language: language)
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
-        result = .success
     }
     
-    switch result {
-    case .success:
-        return 0
-    case .somethingWentWrong:
-        return 1
-    case .dictionaryIsEmpty:
-        return 2
-    case .onlyOneParameterEnteredToDelete:
-        return 3
-    case .parseWentWrong:
-        return 4
-    }
-    
+    return 0
 }

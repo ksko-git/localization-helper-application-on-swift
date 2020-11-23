@@ -1,6 +1,8 @@
 import Foundation
 import localisation_helper
 
-let result = localisationHelper()
+var result = 4747
+result = try localisationHelper()
 print(result)
 exit(Int32(result))
+

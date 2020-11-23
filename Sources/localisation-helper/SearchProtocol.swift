@@ -8,6 +8,6 @@
 import Foundation
 
 protocol SearchProtocol {
-    func search(key: String?, language: String?) -> ValidationResult
+    func search(key: String?, language: String?) throws
     func defaultSearch(dictionary: [String: [String: String]])
 }

@@ -8,14 +8,16 @@
 import Foundation
 
 public enum ValidationResult: LocalizedError {
-    
-    case success
+
     case somethingWentWrong
     case dictionaryIsEmpty
     case onlyOneParameterEnteredToDelete
     case parseWentWrong
+    case pathToFileIsEmpty
+    case failedToWrite
+    case helpMessageIsNotShown
     
-    public var errorDescription: String? {
+    public var errorDescription: String {
         switch self {
         case .somethingWentWrong:
             return "Something went wrong!"
@@ -23,6 +25,12 @@ public enum ValidationResult: LocalizedError {
             return "Dictionary is empty!"
         case .onlyOneParameterEnteredToDelete:
             return "Only one parameter entered to delete!"
+        case .pathToFileIsEmpty:
+            return "Path to file is empty!"
+        case .failedToWrite:
+            return "Failed to write!"
+        case .helpMessageIsNotShown:
+            return "Help message is not shown!!"
         default:
             return "Something went wrong!"
         }

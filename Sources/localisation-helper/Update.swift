@@ -17,12 +17,12 @@ public class Update: UpdateProtocol {
         self.output = terminalOutput
     }
     
-    public func update(newWord: String, key: String, language: String) -> ValidationResult {
+    public func update(newWord: String, key: String, language: String) throws {
 
         var dictionary = dict.getDictionary()
         
         guard !dictionary.isEmpty else {
-            return .dictionaryIsEmpty
+            throw ValidationResult.dictionaryIsEmpty
         }
         
         var isInDictionary = false
@@ -44,8 +44,7 @@ public class Update: UpdateProtocol {
             dictionary[newWord]?[language] = key
             dictionary.updateValue(thisDictionary, forKey: newWord)
         }        
-        dict.write(dictionary: dictionary)
+        try dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Словарь обновлен.")
-        return .success
     }
 }
