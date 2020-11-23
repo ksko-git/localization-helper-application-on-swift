@@ -26,8 +26,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Run a search command
-        run: swift run search
+      - name: Run build
+        run: swift build
+      - name: Run search
+        run: swift run Run search
 
 #       # Runs a set of commands using the runners shell
 #       - name: Run a multi-line script
