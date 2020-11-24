@@ -19,11 +19,7 @@ public class Delete: DeleteProtocol {
     
     public func delete(key: String?, language: String?) throws {
         
-        var dictionary = dict.getDictionary()
-        
-        guard !dictionary.isEmpty else {
-            throw ValidationResult.dictionaryIsEmpty
-        }
+        var dictionary = try dict.getDictionary()
         
         guard key != nil && language != nil else {
             throw ValidationResult.onlyOneParameterEnteredToDelete
@@ -39,6 +35,7 @@ public class Delete: DeleteProtocol {
         }
         try dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Слово удалено.")
+        output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
     }
 }
 

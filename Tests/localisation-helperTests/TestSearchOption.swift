@@ -30,44 +30,51 @@ final class TestSearchOption: XCTestCase {
     }
     
     func testSearchOptionKeyless() throws {
-        
         do {
             try search.search(key: nil, language: nil)
         } catch let error as ValidationResult {
             XCTFail(error.errorDescription)
         }
-        
-//        let result = search.search(key: nil, language: nil)
-//
-//        XCTAssertEqual(result, ValidationResult.success)
     }
 
-//    func testSearchOptionWithTwoKeys() {
-//
-//        let result = search.search(key: "hello", language: "ru")
-//
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
-//
-//    func testSearchOptionWithKKey() {
-//
-//        let result = search.search(key: "hello", language: nil)
-//
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
-//
-//    func testSearchOptionWithLKey() {
-//
-//        let result = search.search(key: nil, language: "ru")
-//
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
+    func testSearchOptionWithTwoKeys() throws {
+        do {
+            try search.search(key: "hello", language: "ru")
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+
+    func testSearchOptionWithKKey() throws {
+        do {
+            try search.search(key: "hello", language: nil)
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+
+    func testSearchOptionWithLKey() throws {
+        do {
+            try search.search(key: nil, language: "ru")
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+    
+    func testDefaultSearch() throws {
+        do {
+            try search.defaultSearch(dictionary: dict.getDictionary())
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
     
     static var allTests = [
         ("testSearchOptionKeyless", testSearchOptionKeyless),
-//        ("testSearchOptionWithTwoKeys", testSearchOptionWithTwoKeys),
-//        ("testSearchOptionWithKKey", testSearchOptionWithKKey),
-//        ("testSearchOptionWithLKey", testSearchOptionWithLKey)
+        ("testSearchOptionWithTwoKeys", testSearchOptionWithTwoKeys),
+        ("testSearchOptionWithKKey", testSearchOptionWithKKey),
+        ("testSearchOptionWithLKey", testSearchOptionWithLKey),
+        ("testDefaultSearch", testDefaultSearch)
     ]
 
 }

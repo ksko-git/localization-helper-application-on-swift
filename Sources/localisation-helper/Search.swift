@@ -21,14 +21,10 @@ public class Search: SearchProtocol {
     
     public func search(key: String?, language: String?) throws {
         
-        let dictionary = dict.getDictionary()
-        
-        guard !dictionary.isEmpty else {
-            throw ValidationResult.dictionaryIsEmpty
-        }
+        let dictionary = try dict.getDictionary()
         
         if key == nil && language == nil {
-            defaultSearch(dictionary: dictionary)
+            try defaultSearch(dictionary: dictionary)
             isInDictionary = true
         }
         
@@ -60,8 +56,8 @@ public class Search: SearchProtocol {
         output.outputNotFound(isInDictionary: isInDictionary)
     }
 
-    public func defaultSearch(dictionary: [String: [String: String]]) {        
-        let dictionary = dict.getDictionary()
+    public func defaultSearch(dictionary: [String: [String: String]]) throws {        
+        let dictionary = try dict.getDictionary()
         for (englishWord, wordsArray) in dictionary {
             output.consoleOutput(word: englishWord)
             for (dictionaryLanguage, dictionaryTranslation) in wordsArray {

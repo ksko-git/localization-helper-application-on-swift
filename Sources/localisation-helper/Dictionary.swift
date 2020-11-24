@@ -15,13 +15,14 @@ public class Dictionary: DictionaryProtocol {
         self.path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
     }
     
-    public func getDictionary() -> [String: [String: String]] {
+    public func getDictionary() throws -> [String: [String: String]] {
         var dictionary: [String: [String: String]] = [:]
-        
         if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
             dictionary = (try? JSONDecoder().decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
+            return dictionary
+        } else {
+            throw ValidationResult.failedToWrite
         }
-        return dictionary
     }
 
     public func write(dictionary: [String: [String: String]]) throws {

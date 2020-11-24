@@ -13,8 +13,7 @@ public class TerminalOutput: TerminalOutputProtocol {
         print(word)
     }
     
-    public func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {
-        
+    public func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {        
         variant == .colon
             ? print("    \(firstArgument): \(secondArgument)")
             : print("\(firstArgument) = \(secondArgument)")        

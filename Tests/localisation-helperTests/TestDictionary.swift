@@ -26,27 +26,36 @@ final class TestDictionary: XCTestCase {
     }
 
     func testWrongPathToFile() {
-        path = ""
+        path = "wrong path"
         switch path {
-        case "":
-            XCTAssertEqual(path, "")
+        case "wrong path":
+            XCTAssertEqual(path, "wrong path")
         default:
             XCTFail("Dictionary must be empty!")
         }
     }
     
-//    func testDictionaryIsEmpty() throws {
-//        path = "wrong path"
-//        do {
-//            try dictionary.write(dictionary: [:])
-//        } catch let error as ValidationResult {
-//            XCTFail(error.errorDescription)
-//        }
-//    }
+    func testDictionaryIsEmpty() throws {
+        do {
+            let dict = try dictionary.getDictionary()
+            XCTAssertEqual(dict, [:])
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+    
+    func testWriteFunction() throws {
+        do {
+            let _ = try dictionary.write(dictionary: ["hello": ["en": "hello"]])
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
     
     static var allTests = [
         ("testWrongPathToFile", testWrongPathToFile),
-//        ("testDictionaryIsEmpty", testDictionaryIsEmpty),
+        ("testDictionaryIsEmpty", testDictionaryIsEmpty),
+        ("testWriteFunction", testWriteFunction),
     ]
 
 }

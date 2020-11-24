@@ -19,11 +19,7 @@ public class Update: UpdateProtocol {
     
     public func update(newWord: String, key: String, language: String) throws {
 
-        var dictionary = dict.getDictionary()
-        
-        guard !dictionary.isEmpty else {
-            throw ValidationResult.dictionaryIsEmpty
-        }
+        var dictionary = try dict.getDictionary()
         
         var isInDictionary = false
         var thisDictionary: [String: String] = [:]
@@ -46,5 +42,6 @@ public class Update: UpdateProtocol {
         }        
         try dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Словарь обновлен.")
+        output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
     }
 }
