@@ -29,40 +29,40 @@ final class TestDeleteOption: XCTestCase {
         super.tearDown()
     }
 
-//    func testDeleteOptionWithTwoKeys() {
-//
-//        let result = delete.delete(key: "hello", language: "en")
-//
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
+    func testDeleteOptionWithTwoKeys() throws {
+        do {
+            try delete.delete(key: "hello", language: "en")
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
     
-//    func testDeleteOptionWithOneKey() {
-//
-//        let expectedError = ValidationResult.onlyOneParameterEnteredToDelete
-//
-//        let result = delete.delete(key: "hello", language: nil)
-//
-//        XCTAssertEqual(result, expectedError)
-//        XCTAssertTrue(true, expectedError.errorDescription!)
-//    }
+    func testDeleteOptionWithKKeyOnly() throws {
+        do {
+            try delete.delete(key: "hello", language: nil)
+        } catch let error as ValidationResult {
+            if error != ValidationResult.onlyOneParameterEnteredToDelete {
+                XCTFail("No error message is issued!")
+            }
+            
+        }
+    }
     
-//    func testDeleteOptionWithNoDictionary() {
-//
-//        let expectedError = ValidationResult.dictionaryIsEmpty
-//
-//        let result = delete.delete(key: "hello", language: nil)
-//
-//        if dict.getDictionary().isEmpty {
-//            XCTFail(expectedError.errorDescription!)
-//        }
-//
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
+    func testDeleteOptionWithLKeyOnly() throws {
+        do {
+            try delete.delete(key: nil, language: "ru")
+        } catch let error as ValidationResult {
+            if error != ValidationResult.onlyOneParameterEnteredToDelete {
+                XCTFail("No error message is issued!")
+            }
+            
+        }
+    }
     
-//    static var allTests = [
-//        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
-//        ("testDeleteOptionWithOneKey", testDeleteOptionWithOneKey),
-//        ("testDeleteOptionWithNoDictionary", testDeleteOptionWithNoDictionary)
-//    ]
+    static var allTests = [
+        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+        ("testDeleteOptionWithKKeyOnly", testDeleteOptionWithKKeyOnly),
+        ("testDeleteOptionWithLKeyOnly", testDeleteOptionWithLKeyOnly)
+    ]
 
 }

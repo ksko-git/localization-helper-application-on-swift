@@ -29,15 +29,25 @@ final class TestUpdateOption: XCTestCase {
         super.tearDown()
     }
     
-//    func testDeleteOptionWithTwoKeys() {
-//        
-//        let result = update.update(newWord: "hi", key: "hello", language: "en")
-//        
-//        XCTAssertEqual(result, ValidationResult.success)
-//    }
-//    
-//    static var allTests = [
-//        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
-//    ]
+    func testUpdateOptionWithTwoKeys() throws {
+        do {
+            try update.update(newWord: "hi", key: "hello", language: "en")
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+    
+    func testUpdateOptionWithEmptyArguments() throws {
+        do {
+            try update.update(newWord: "", key: "", language: "")
+        } catch let error as ValidationResult {
+            XCTFail(error.errorDescription)
+        }
+    }
+    
+    static var allTests = [
+        ("testUpdateOptionWithTwoKeys", testUpdateOptionWithTwoKeys),
+        ("testUpdateOptionWithEmptyArguments", testUpdateOptionWithEmptyArguments)
+    ]
 
 }
