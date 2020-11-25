@@ -7,30 +7,36 @@
 
 @testable import localisation_helper
 
-class MockTerminalOutput: TerminalOutputProtocol {   
-    
-    var consoleOutputParameters: (String)!
+class MockTerminalOutput: TerminalOutputProtocol {
+
     var consoleOutputCallsCount = 0
-    
+    var consoleOutputParameters: (word: String, Void)?
+    var consoleOutputParametersList = [(word: String, Void)]()
+
     func consoleOutput(word: String) {
         consoleOutputCallsCount += 1
-        consoleOutputParameters = word
+        consoleOutputParameters = (word, ())
+        consoleOutputParametersList.append((word, ()))
     }
-    
-    var outputTemplatesParameters: (TemplateOptions, String, String)!
+
     var outputTemplatesCallsCount = 0
-    
+    var outputTemplatesParameters: (variant: TemplateOptions, firstArgument: String, secondArgument: String)?
+    var outputTemplatesParametersList = [(variant: TemplateOptions, firstArgument: String, secondArgument: String)]()
+
     func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {
         outputTemplatesCallsCount += 1
         outputTemplatesParameters = (variant, firstArgument, secondArgument)
+        outputTemplatesParametersList.append((variant, firstArgument, secondArgument))
     }
-    
-    var outputNotFoundParameters: (Bool)!
+
     var outputNotFoundCallsCount = 0
+    var outputNotFoundParameters: (isInDictionary: Bool, Void)?
+    var outputNotFoundParametersList = [(isInDictionary: Bool, Void)]()
 
     func outputNotFound(isInDictionary: Bool) {
         outputNotFoundCallsCount += 1
-        outputNotFoundParameters = true
+        outputNotFoundParameters = (isInDictionary, ())
+        outputNotFoundParametersList.append((isInDictionary, ()))
     }
-
+    
 }
