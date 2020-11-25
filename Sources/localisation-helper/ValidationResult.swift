@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ValidationResult: LocalizedError {
+public enum ValidationResult: Swift.Error, Equatable {
 
     case somethingWentWrong
     case dictionaryIsEmpty

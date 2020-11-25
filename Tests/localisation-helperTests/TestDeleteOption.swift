@@ -14,6 +14,7 @@ final class TestDeleteOption: XCTestCase {
 
     var dict: MockDictionary!
     var output: MockTerminalOutput!
+    var thrownError: ValidationResult?
 
     override func setUp() {
         super.setUp()
@@ -30,39 +31,48 @@ final class TestDeleteOption: XCTestCase {
     }
 
     func testDeleteOptionWithTwoKeys() throws {
-        do {
-            try delete.delete(key: "hello", language: "en")
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        
+    }
+    
+    func testDeleteOptionWithEmptyDictionary() throws {
+        
+        XCTAssertThrowsError(try delete.delete(key: "hello", language: "en"), "A wordOutOfDictionary Error should have been thrown but no Error was thrown.") { error in
+            XCTAssertEqual(error as? ValidationResult, ValidationResult.wordOutOfDictionary)
+         }
+        
     }
     
     func testDeleteOptionWithKKeyOnly() throws {
-        do {
-            try delete.delete(key: "hello", language: nil)
-        } catch let error as ValidationResult {
-            if error != ValidationResult.twoParametersForDeleteFunctionExpected {
-                XCTFail("No error message is issued!")
-            }
-            
-        }
+        
+        XCTAssertThrowsError(try delete.delete(key: "hello", language: nil), "A twoParametersForDeleteFunctionExpected Error should have been thrown but no Error was thrown.") { error in
+            XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
+         }
+        
     }
     
     func testDeleteOptionWithLKeyOnly() throws {
-        do {
-            try delete.delete(key: nil, language: "ru")
-        } catch let error as ValidationResult {
-            if error != ValidationResult.twoParametersForDeleteFunctionExpected {
-                XCTFail("No error message is issued!")
-            }
-            
-        }
+        
+        XCTAssertThrowsError(try delete.delete(key: nil, language: "en"), "A twoParametersForDeleteFunctionExpected Error should have been thrown but no Error was thrown.") { error in
+            XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
+         }
+        
+    }
+    
+    func testDeleteOptionWithoutArguments() throws {
+        
+        XCTAssertThrowsError(try delete.delete(key: nil, language: nil), "A twoParametersForDeleteFunctionExpected Error should have been thrown but no Error was thrown.") { error in
+            XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
+         }
+        
     }
     
     static var allTests = [
         ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
         ("testDeleteOptionWithKKeyOnly", testDeleteOptionWithKKeyOnly),
-        ("testDeleteOptionWithLKeyOnly", testDeleteOptionWithLKeyOnly)
+        ("testDeleteOptionWithLKeyOnly", testDeleteOptionWithLKeyOnly),
+        ("testDeleteOptionWithoutArguments", testDeleteOptionWithoutArguments)
     ]
 
 }
