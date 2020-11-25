@@ -29,52 +29,95 @@ final class TestSearchOption: XCTestCase {
         super.tearDown()
     }
     
-    func testSearchOptionKeyless() throws {
-        do {
-            try search.search(key: nil, language: nil)
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+    func testSearchOptionWithoutKeys() throws {
+        
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        // проверка того, что функции не вызывались в search
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 0)
+        
+        XCTAssertNoThrow(try search.search(key: nil, language: nil))
+        // но вызывались в defaultSearch
+        XCTAssertEqual(output.consoleOutputCallsCount, 1)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 1)
+        
     }
 
     func testSearchOptionWithTwoKeys() throws {
-        do {
-            try search.search(key: "hello", language: "ru")
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        
+        XCTAssertNoThrow(try search.search(key: "hello", language: "en"))
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 1)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 0)
+        
     }
 
     func testSearchOptionWithKKey() throws {
-        do {
-            try search.search(key: "hello", language: nil)
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        
+        XCTAssertNoThrow(try search.search(key: "hello", language: nil))
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 1)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 1)
+        
     }
 
     func testSearchOptionWithLKey() throws {
-        do {
-            try search.search(key: nil, language: "ru")
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        
+        XCTAssertNoThrow(try search.search(key: nil, language: "en"))
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 1)
+
     }
     
-//    func testDefaultSearch() throws {
-//        do {
-//            try search.defaultSearch(dictionary: dict.getDictionary())
-//        } catch let error as ValidationResult {
-//            XCTFail(error.errorDescription)
-//        }
-//    }
+    func testSearchOptionWithWrongKKey() throws {
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        
+        XCTAssertNoThrow(try search.search(key: "cat", language: "en"))
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 0)
+        XCTAssertEqual(output.outputNotFoundCallsCount, 1)
+
+    }
+    
+    func testSearchOptionWithWrongLKey() throws {
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        
+        XCTAssertNoThrow(try search.search(key: "hello", language: "ru"))
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        XCTAssertEqual(output.outputTemplatesCallsCount, 0)
+        XCTAssertEqual(output.outputNotFoundCallsCount, 1)
+
+    }
     
     static var allTests = [
-        ("testSearchOptionKeyless", testSearchOptionKeyless),
+        ("testSearchOptionWithoutKeys", testSearchOptionWithoutKeys),
         ("testSearchOptionWithTwoKeys", testSearchOptionWithTwoKeys),
         ("testSearchOptionWithKKey", testSearchOptionWithKKey),
         ("testSearchOptionWithLKey", testSearchOptionWithLKey),
-//        ("testDefaultSearch", testDefaultSearch)
+        ("testSearchOptionWithWrongKKey", testSearchOptionWithWrongKKey),
+        ("testSearchOptionWithWrongLKey", testSearchOptionWithWrongLKey),
     ]
 
 }

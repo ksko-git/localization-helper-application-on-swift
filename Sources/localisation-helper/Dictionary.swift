@@ -26,6 +26,11 @@ public class Dictionary: DictionaryProtocol {
     }
 
     public func write(dictionary: [String: [String: String]]) throws {
+        
+        guard !dictionary.isEmpty else {
+            throw ValidationResult.failedToWrite
+        }
+        
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))

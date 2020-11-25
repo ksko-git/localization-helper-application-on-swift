@@ -30,24 +30,31 @@ final class TestUpdateOption: XCTestCase {
     }
     
     func testUpdateOptionWithTwoKeys() throws {
-        do {
-            try update.update(newWord: "hi", key: "hello", language: "en")
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+        
+        XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        XCTAssertNoThrow(try dict.write(dictionary: dict.getDictionaryResult), "Successfull write.")
+        
+        XCTAssertNoThrow(try update.update(newWord: "hi", key: "hello", language: "en"), "Successfull delete.")
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 2)
+        
     }
     
-    func testUpdateOptionWithEmptyArguments() throws {
-        do {
-            try update.update(newWord: "", key: "", language: "")
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
+    func testUpdateOptionWithWordOutOfDictionary() throws {
+        
+        XCTAssertThrowsError(try update.update(newWord: "hi", key: "hello", language: "en"), "A wordOutOfDictionary Error should have been thrown but no Error was thrown.") { error in
+            XCTAssertEqual(error as? ValidationResult, ValidationResult.wordOutOfDictionary)
+         }
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        
     }
     
     static var allTests = [
         ("testUpdateOptionWithTwoKeys", testUpdateOptionWithTwoKeys),
-        ("testUpdateOptionWithEmptyArguments", testUpdateOptionWithEmptyArguments)
+        ("testUpdateOptionWithWordOutOfDictionary", testUpdateOptionWithWordOutOfDictionary)
     ]
 
 }

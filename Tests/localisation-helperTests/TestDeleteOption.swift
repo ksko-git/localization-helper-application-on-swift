@@ -33,6 +33,13 @@ final class TestDeleteOption: XCTestCase {
     func testDeleteOptionWithTwoKeys() throws {
         
         XCTAssertNoThrow(try dict.getDictionary(), "Dictionary received.")
+        dict.getDictionaryResult = ["hello": ["en": "hello"]]
+        XCTAssertEqual(try dict.getDictionary(), ["hello": ["en": "hello"]])
+        XCTAssertNoThrow(try dict.write(dictionary: dict.getDictionaryResult), "Successfull write.")
+        
+        XCTAssertNoThrow(try delete.delete(key: "hello", language: "en"), "Successfull delete.")
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 2)
         
     }
     
@@ -42,6 +49,8 @@ final class TestDeleteOption: XCTestCase {
             XCTAssertEqual(error as? ValidationResult, ValidationResult.wordOutOfDictionary)
          }
         
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        
     }
     
     func testDeleteOptionWithKKeyOnly() throws {
@@ -49,6 +58,8 @@ final class TestDeleteOption: XCTestCase {
         XCTAssertThrowsError(try delete.delete(key: "hello", language: nil), "A twoParametersForDeleteFunctionExpected Error should have been thrown but no Error was thrown.") { error in
             XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
          }
+        
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
         
     }
     
@@ -58,6 +69,8 @@ final class TestDeleteOption: XCTestCase {
             XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
          }
         
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        
     }
     
     func testDeleteOptionWithoutArguments() throws {
@@ -66,10 +79,13 @@ final class TestDeleteOption: XCTestCase {
             XCTAssertEqual(error as? ValidationResult, ValidationResult.twoParametersForDeleteFunctionExpected)
          }
         
+        XCTAssertEqual(output.consoleOutputCallsCount, 0)
+        
     }
     
     static var allTests = [
         ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys),
+        ("testDeleteOptionWithEmptyDictionary", testDeleteOptionWithEmptyDictionary),
         ("testDeleteOptionWithKKeyOnly", testDeleteOptionWithKKeyOnly),
         ("testDeleteOptionWithLKeyOnly", testDeleteOptionWithLKeyOnly),
         ("testDeleteOptionWithoutArguments", testDeleteOptionWithoutArguments)

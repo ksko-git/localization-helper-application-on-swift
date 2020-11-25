@@ -22,7 +22,6 @@ public class Update: UpdateProtocol {
         do {
             var dictionary = try dict.getDictionary()
             var isInDictionary = false
-            var thisDictionary: [String: String] = [:]
             
             for (englishWord, wordsArray) in dictionary {
                 for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
@@ -35,11 +34,11 @@ public class Update: UpdateProtocol {
                     }
                 }
             }
-            if isInDictionary != true { // Если слова нет в словаре (?? убрать и сделать из этого ошибку)
-                thisDictionary[language] = key
-                dictionary[newWord]?[language] = key
-                dictionary.updateValue(thisDictionary, forKey: newWord)
+            
+            guard isInDictionary == true else {
+                throw ValidationResult.wordOutOfDictionary
             }
+            
             try dict.write(dictionary: dictionary)
             output.consoleOutput(word: "Словарь обновлен.")
             output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
