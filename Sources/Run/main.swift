@@ -1,7 +1,10 @@
 import Foundation
 import localisation_helper
 
-var result = 4747
-result = try localisationHelper()
-exit(Int32(result))
-
+do {
+    let _ = try localisationHelper()
+    exit(Int32(0))
+} catch let error as ValidationResult {
+    print(error.errorDescription)
+    exit(Int32(error.errorCode))
+}

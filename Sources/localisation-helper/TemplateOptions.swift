@@ -1,12 +1,11 @@
 //
-//  TestTerminalOutput.swift
+//  TemplateOptions.swift
 //  
 //
 //  Created by Ксюся on 13.11.2020.
 //
 
 import Foundation
-
 
 public enum TemplateOptions {
     case colon

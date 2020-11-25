@@ -18,30 +18,35 @@ public class Update: UpdateProtocol {
     }
     
     public func update(newWord: String, key: String, language: String) throws {
-
-        var dictionary = try dict.getDictionary()
         
-        var isInDictionary = false
-        var thisDictionary: [String: String] = [:]
-        
-        for (englishWord, wordsArray) in dictionary {
-            for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
-                // Если слово есть в словаре
-                if language.lowercased() == dictionaryLanguage.lowercased()
-                    && key.lowercased() == dictionaryTranslation.lowercased() {
-                    dictionary[englishWord]?[dictionaryLanguage] = newWord
-                    dictionary.updateValue(wordsArray, forKey: dictionaryLanguage)
-                    isInDictionary = true
+        do {
+            var dictionary = try dict.getDictionary()
+            var isInDictionary = false
+            var thisDictionary: [String: String] = [:]
+            
+            for (englishWord, wordsArray) in dictionary {
+                for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
+                    // Если слово есть в словаре
+                    if language.lowercased() == dictionaryLanguage.lowercased()
+                        && key.lowercased() == dictionaryTranslation.lowercased() {
+                        dictionary[englishWord]?[dictionaryLanguage] = newWord
+                        dictionary.updateValue(wordsArray, forKey: dictionaryLanguage)
+                        isInDictionary = true
+                    }
                 }
             }
+            if isInDictionary != true { // Если слова нет в словаре (?? убрать и сделать из этого ошибку)
+                thisDictionary[language] = key
+                dictionary[newWord]?[language] = key
+                dictionary.updateValue(thisDictionary, forKey: newWord)
+            }
+            try dict.write(dictionary: dictionary)
+            output.consoleOutput(word: "Словарь обновлен.")
+            output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
+            
+        } catch let error as ValidationResult {
+            throw error
         }
-        if isInDictionary != true { // Если слова нет в словаре
-            thisDictionary[language] = key
-            dictionary[newWord]?[language] = key
-            dictionary.updateValue(thisDictionary, forKey: newWord)
-        }        
-        try dict.write(dictionary: dictionary)
-        output.consoleOutput(word: "Словарь обновлен.")
-        output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
+
     }
 }

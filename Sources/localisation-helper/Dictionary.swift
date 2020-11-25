@@ -21,7 +21,7 @@ public class Dictionary: DictionaryProtocol {
             dictionary = (try? JSONDecoder().decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
             return dictionary
         } else {
-            throw ValidationResult.failedToWrite
+            throw ValidationResult.failedToRead
         }
     }
 

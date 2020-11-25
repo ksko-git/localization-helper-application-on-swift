@@ -61,20 +61,20 @@ final class TestSearchOption: XCTestCase {
         }
     }
     
-    func testDefaultSearch() throws {
-        do {
-            try search.defaultSearch(dictionary: dict.getDictionary())
-        } catch let error as ValidationResult {
-            XCTFail(error.errorDescription)
-        }
-    }
+//    func testDefaultSearch() throws {
+//        do {
+//            try search.defaultSearch(dictionary: dict.getDictionary())
+//        } catch let error as ValidationResult {
+//            XCTFail(error.errorDescription)
+//        }
+//    }
     
     static var allTests = [
         ("testSearchOptionKeyless", testSearchOptionKeyless),
         ("testSearchOptionWithTwoKeys", testSearchOptionWithTwoKeys),
         ("testSearchOptionWithKKey", testSearchOptionWithKKey),
         ("testSearchOptionWithLKey", testSearchOptionWithLKey),
-        ("testDefaultSearch", testDefaultSearch)
+//        ("testDefaultSearch", testDefaultSearch)
     ]
 
 }

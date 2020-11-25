@@ -41,7 +41,7 @@ final class TestDeleteOption: XCTestCase {
         do {
             try delete.delete(key: "hello", language: nil)
         } catch let error as ValidationResult {
-            if error != ValidationResult.onlyOneParameterEnteredToDelete {
+            if error != ValidationResult.twoParametersForDeleteFunctionExpected {
                 XCTFail("No error message is issued!")
             }
             
@@ -52,7 +52,7 @@ final class TestDeleteOption: XCTestCase {
         do {
             try delete.delete(key: nil, language: "ru")
         } catch let error as ValidationResult {
-            if error != ValidationResult.onlyOneParameterEnteredToDelete {
+            if error != ValidationResult.twoParametersForDeleteFunctionExpected {
                 XCTFail("No error message is issued!")
             }
             

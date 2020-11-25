@@ -21,7 +21,7 @@ public class TerminalOutput: TerminalOutputProtocol {
     
     public func outputNotFound(isInDictionary: Bool) {
         if isInDictionary == false {
-            print("Not found")
+            print("Word is not found!")
         }
     }
     

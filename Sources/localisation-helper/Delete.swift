@@ -19,23 +19,36 @@ public class Delete: DeleteProtocol {
     
     public func delete(key: String?, language: String?) throws {
         
-        var dictionary = try dict.getDictionary()
+        var isWordExist = false
         
         guard key != nil && language != nil else {
-            throw ValidationResult.onlyOneParameterEnteredToDelete
+            throw ValidationResult.twoParametersForDeleteFunctionExpected
         }
         
-        for (englishWord, wordsArray) in dictionary {
-            var wordsArray = wordsArray
-            // -k -l
-            if let language: String = language, let key: String = key, wordsArray[language]?.lowercased() == key.lowercased() {
-                wordsArray[language] = nil
-                dictionary[englishWord] = wordsArray
+        do {
+            var dictionary = try dict.getDictionary()
+            for (englishWord, wordsArray) in dictionary {
+                var wordsArray = wordsArray
+                // -k -l
+                if let language: String = language, let key: String = key, wordsArray[language]?.lowercased() == key.lowercased() {
+                    wordsArray[language] = nil
+                    dictionary[englishWord] = wordsArray
+                    isWordExist = true
+                }
             }
+            
+            guard isWordExist == true else {
+                throw ValidationResult.wordOutOfDictionary
+            }
+            
+            try dict.write(dictionary: dictionary)
+            output.consoleOutput(word: "Слово удалено.")
+            output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
+            
+        } catch let error as ValidationResult {
+            throw error
         }
-        try dict.write(dictionary: dictionary)
-        output.consoleOutput(word: "Слово удалено.")
-        output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
+        
     }
 }
 

@@ -30,7 +30,7 @@ public class Container {
     
 }
 
-public func localisationHelper() throws -> Int {
+public func localisationHelper() throws {
     
     let container = Container()
 
@@ -46,5 +46,4 @@ public func localisationHelper() throws -> Int {
         container.message.consoleOutput(word: message)
     }
     
-    return 0
 }
