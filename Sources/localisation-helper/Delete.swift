@@ -7,36 +7,48 @@
 
 import Foundation
 
-class Delete: DeleteProtocol {
+public class Delete: DeleteProtocol {
     
-    var output: TerminalOutput
+    var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     
-    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutput) {
+    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutputProtocol) {
         self.dict = dictionary
         self.output = terminalOutput
     }
     
-    func delete(key: String?, language: String?) {
-        var dictionary = dict.getDictionary()
+    public func delete(key: String?, language: String?) throws {
         
-        for (englishWord, wordsArray) in dictionary {
-            for (dictionaryLanguage, dictionaryTranslation) in wordsArray {
+        var isWordExist = false
+        
+        guard key != nil && language != nil else {
+            throw ValidationResult.twoParametersForDeleteFunctionExpected
+        }
+        
+        do {
+            var dictionary = try dict.getDictionary()
+            for (englishWord, wordsArray) in dictionary {
+                var wordsArray = wordsArray
                 // -k -l
-                if let language: String = language, let key: String = key,
-                   language.lowercased() == dictionaryLanguage.lowercased()
-                    && key.lowercased() == dictionaryTranslation.lowercased() {
-                    dictionary.removeValue(forKey: englishWord)
-                // -k || -l
-                } else if let language: String = language, let key: String = key,
-                          key.lowercased() == dictionaryTranslation.lowercased()
-                            || language.lowercased() == dictionaryLanguage.lowercased() {
-                    dictionary[englishWord]?[dictionaryLanguage] = nil
+                if let language: String = language, let key: String = key, wordsArray[language]?.lowercased() == key.lowercased() {
+                    wordsArray[language] = nil
+                    dictionary[englishWord] = wordsArray
+                    isWordExist = true
                 }
             }
+            
+            guard isWordExist == true else {
+                throw ValidationResult.wordOutOfDictionary
+            }
+            
+            try dict.write(dictionary: dictionary)
+            output.consoleOutput(word: "Слово удалено.")
+            output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
+            
+        } catch let error as ValidationResult {
+            throw error
         }
-        dict.write(dictionary: dictionary)
-        output.consoleOutput(word: "Слово удалено.")        
+        
     }
 }
 

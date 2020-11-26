@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ArgumentsParserProtocol {
-    func parse() -> Arguments
+public protocol ArgumentsParserProtocol {
+    func parse(_ arguments: [String]?) -> Arguments
 }
 

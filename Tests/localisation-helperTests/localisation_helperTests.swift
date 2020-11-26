@@ -26,7 +26,7 @@ final class localisation_helperTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8)
 
-        XCTAssertEqual(output, "Hello, world!\n")
+        XCTAssertEqual(output, "OVERVIEW: Localisation helper application.\n\nUSAGE: commands <subcommand>\n\nOPTIONS:\n  -h, --help              Show help information.\n\nSUBCOMMANDS:\n  search\n  update\n  delete\n\n  See \'commands help <subcommand>\' for detailed help.\n")
     }
 
     /// Returns path to the built products directory.

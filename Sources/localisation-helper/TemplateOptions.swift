@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-enum TemplateOptions {
+public enum TemplateOptions {
     case colon
     case equalSign
 }

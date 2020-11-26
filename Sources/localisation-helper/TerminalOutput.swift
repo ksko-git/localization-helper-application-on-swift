@@ -7,28 +7,21 @@
 
 import Foundation
 
-class TerminalOutput: TerminalOutputProtocol {
+public class TerminalOutput: TerminalOutputProtocol {
     
-    let dict: DictionaryProtocol
-    
-    init(dictionary: DictionaryProtocol) {
-        self.dict = dictionary
-    }
-    
-    func consoleOutput(word: String) {
+    public func consoleOutput(word: String) {
         print(word)
     }
     
-    func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {
-        
+    public func outputTemplates(variant: TemplateOptions, firstArgument: String, secondArgument: String) {        
         variant == .colon
             ? print("    \(firstArgument): \(secondArgument)")
             : print("\(firstArgument) = \(secondArgument)")        
     }
     
-    func outputNotFound(isInDictionary: Bool) {
+    public func outputNotFound(isInDictionary: Bool) {
         if isInDictionary == false {
-            print("Not found")
+            print("Word is not found!")
         }
     }
     
