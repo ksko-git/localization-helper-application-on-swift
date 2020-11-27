@@ -26,7 +26,7 @@ jobs:
       - name: Run the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: .build/debug/Run
+          swift-action: run Run
       - name: Run the "search" subcommand
         uses: Didstopia/SwiftAction@v1.0.3
         with:
