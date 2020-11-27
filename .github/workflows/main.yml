@@ -19,31 +19,46 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
-      - name: Swift Action
+      - name: Build the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          # Swift action to run
-          swift-action: # default is build
-      - name: Run app
-        run: .build/debug/Run
+          swift-action: swift build
+      - name: Run the app
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run
       - name: Run the "search" subcommand
-        run: |
-          .build/debug/Run search
-          .build/debug/Run search -k hello
-          .build/debug/Run search -l pt
-          .build/debug/Run search -k day -l en
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run search
+      - name: Run the "search -k hello" command
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run search -k hello
+      - name: Run the "search -l pt" command
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run search -l pt
+      - name: Run the "search -k day -l en" command
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run search -k day -l en
       - name: Run the "update" subcommand
-        run: |
-          .build/debug/Run update
-          .build/debug/Run update hi -k hello -l en
-      - name: Run the "delete" subcommand
-        run: |
-          .build/debug/Run delete
-          .build/debug/Run delete -k dia -l pt
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run update
+      - name: Run the "update hi -k hello -l en" command
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run update hi -k hello -l en
+      - name: Run the "delete -k dia -l pt" command
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run delete -k dia -l pt
       - name: Run the "help" command
-        run: |
-          .build/debug/Run -h
-          .build/debug/Run --help
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run -h
           
   my_job_macOS:
     name: Run app on macOS
@@ -68,7 +83,6 @@ jobs:
           .build/debug/Run update hi -k hello -l en
       - name: Run the "delete" subcommand
         run: |
-          .build/debug/Run delete
           .build/debug/Run delete -k dia -l pt
       - name: Run the "help" command
         run: |
