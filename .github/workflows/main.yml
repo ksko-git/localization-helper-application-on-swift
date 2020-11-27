@@ -30,39 +30,39 @@ jobs:
       - name: Run the "search" subcommand
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: .build/debug/Run search
-      - name: Run the "search -k hello" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run search -k hello
-      - name: Run the "search -l pt" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run search -l pt
-      - name: Run the "search -k day -l en" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run search -k day -l en
-      - name: Run the "update" subcommand
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run update
-      - name: Run the "update hi -k hello -l en" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run update hi -k hello -l en
-      - name: Run the "delete -k dia -l pt" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run delete -k dia -l pt
-      - name: Run the "help" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run -h
-      - name: Run tests
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: .build/debug/Run test
+          swift-action: Run search
+#       - name: Run the "search -k hello" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run search -k hello
+#       - name: Run the "search -l pt" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run search -l pt
+#       - name: Run the "search -k day -l en" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run search -k day -l en
+#       - name: Run the "update" subcommand
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run update
+#       - name: Run the "update hi -k hello -l en" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run update hi -k hello -l en
+#       - name: Run the "delete -k dia -l pt" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run delete -k dia -l pt
+#       - name: Run the "help" command
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run -h
+#       - name: Run tests
+#         uses: Didstopia/SwiftAction@v1.0.3
+#         with:
+#           swift-action: .build/debug/Run test
           
   my_job_macOS:
     name: Run app on macOS
