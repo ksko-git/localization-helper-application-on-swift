@@ -30,7 +30,7 @@ jobs:
       - name: Run the "search" subcommand
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: Run search
+          swift-action: run Run search
 #       - name: Run the "search -k hello" command
 #         uses: Didstopia/SwiftAction@v1.0.3
 #         with:
