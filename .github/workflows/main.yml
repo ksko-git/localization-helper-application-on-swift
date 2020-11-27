@@ -12,8 +12,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  my_job_ubuntu:
+    name: Run app on ubuntu
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -23,13 +24,53 @@ jobs:
         with:
           # Swift action to run
           swift-action: # default is build
-      - name: Build app
-        run: swift build
-
-      # Runs a set of commands using the runners shell
-      - name: Run the "search" subcommand in different ways
+      - name: Run app
+        run: .build/debug/Run
+      - name: Run the "search" subcommand
         run: |
           .build/debug/Run search
           .build/debug/Run search -k hello
           .build/debug/Run search -l pt
           .build/debug/Run search -k day -l en
+      - name: Run the "update" subcommand
+        run: |
+          .build/debug/Run update
+          .build/debug/Run update hi -k hello -l en
+      - name: Run the "delete" subcommand
+        run: |
+          .build/debug/Run delete
+          .build/debug/Run delete -k dia -l pt
+      - name: Run the "help" command
+        run: |
+          .build/debug/Run -h
+          .build/debug/Run --help
+          
+  my_job_macOS:
+    name: Run app on macOS
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Build app
+        run: swift build        
+      - name: Run app
+        run: .build/debug/Run
+      - name: Run the "search" subcommand
+        run: |
+          .build/debug/Run search
+          .build/debug/Run search -k hello
+          .build/debug/Run search -l pt
+          .build/debug/Run search -k day -l en
+      - name: Run the "update" subcommand
+        run: |
+          .build/debug/Run update
+          .build/debug/Run update hi -k hello -l en
+      - name: Run the "delete" subcommand
+        run: |
+          .build/debug/Run delete
+          .build/debug/Run delete -k dia -l pt
+      - name: Run the "help" command
+        run: |
+          .build/debug/Run -h
+          .build/debug/Run --help
