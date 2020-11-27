@@ -22,7 +22,7 @@ jobs:
       - name: Build the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: swift build
+          swift-action: build
       - name: Run the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
@@ -59,6 +59,10 @@ jobs:
         uses: Didstopia/SwiftAction@v1.0.3
         with:
           swift-action: .build/debug/Run -h
+      - name: Run tests
+        uses: Didstopia/SwiftAction@v1.0.3
+        with:
+          swift-action: .build/debug/Run test
           
   my_job_macOS:
     name: Run app on macOS
@@ -88,3 +92,5 @@ jobs:
         run: |
           .build/debug/Run -h
           .build/debug/Run --help
+      - name: Run tests
+        run: .build/debug/Run test
