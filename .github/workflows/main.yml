@@ -23,47 +23,20 @@ jobs:
         uses: Didstopia/SwiftAction@v1.0.3
         with:
           swift-action: build
+      
       - name: Run the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
           swift-action: run Run
-      - name: Run the "search" subcommand
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run search
-      - name: Run the "search -k hello" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run search -k hello
-      - name: Run the "search -l pt" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run search -l pt
-      - name: Run the "search -k day -l en" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run search -k day -l en
-      - name: Run the "update" subcommand
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run update
-      - name: Run the "update hi -k hello -l en" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run update hi -k hello -l en
-      - name: Run the "delete -k dia -l pt" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run delete -k dia -l pt
-      - name: Run the "help" command
-        uses: Didstopia/SwiftAction@v1.0.3
-        with:
-          swift-action: run Run -h
-      - name: Run tests
+          
+      - name: Run UNIT tests
         uses: Didstopia/SwiftAction@v1.0.3
         with:
           swift-action: run Run test
-          
+      
+      - name: Run Tests.sh
+        run: sudo bash ./Tests.sh
+      
   my_job_macOS:
     name: Run app on macOS
     runs-on: macos-10.15
@@ -72,25 +45,13 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Build app
-        run: swift build        
+        run: swift build
+                
       - name: Run app
         run: .build/debug/Run
-      - name: Run the "search" subcommand
-        run: |
-          .build/debug/Run search
-          .build/debug/Run search -k hello
-          .build/debug/Run search -l pt
-          .build/debug/Run search -k day -l en
-      - name: Run the "update" subcommand
-        run: |
-          .build/debug/Run update
-          .build/debug/Run update hi -k hello -l en
-      - name: Run the "delete" subcommand
-        run: |
-          .build/debug/Run delete -k dia -l pt
-      - name: Run the "help" command
-        run: |
-          .build/debug/Run -h
-          .build/debug/Run --help
-      - name: Run tests
+        
+      - name: Run UNIT tests
         run: .build/debug/Run test
+      
+      - name: Run Tests.sh
+        run: sh Tests.sh
