@@ -35,7 +35,7 @@ jobs:
           swift-action: run Run test
       
       - name: Run Tests.sh
-        run: sh Tests.sh
+        run: ./Tests.sh
       
   my_job_macOS:
     name: Run app on macOS
