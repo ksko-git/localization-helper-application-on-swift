@@ -26,24 +26,26 @@ public class Container {
     }
     var delete: DeleteProtocol {
         Delete(dictionary: dict, terminalOutput: message)
-    }  
+    }
     
 }
 
-public func localisationHelper() throws {
+public func localisationHelper() -> [String: [String: String]] {
     
     let container = Container()
 
     let arguments = container.argumentsParser.parse(nil)
     
+//    container.search.search(key: "day", language: "en")
+    
     if case .search(let key, let language) = arguments {
-        try container.search.search(key: key, language: language)
+        return container.search.search(key: key, language: language)
     } else if case .update(let word, let key, let language) = arguments {
-        try container.update.update(newWord: word, key: key, language: language)
+        return container.update.update(newWord: word, key: key, language: language)
     } else if case .delete(let key, let language) = arguments {
-        try container.delete.delete(key: key, language: language)
+        return container.delete.delete(key: key, language: language)
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
     }
-    
+    return [:]
 }

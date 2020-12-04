@@ -1,10 +1,9 @@
-import Foundation
-import localisation_helper
+import App
+import Vapor
 
-do {
-    try localisationHelper()
-    exit(Int32(0))
-} catch let error as ValidationResult {
-    print(error.errorDescription)
-    exit(Int32(error.errorCode))
-}
+var env = try Environment.detect()
+try LoggingSystem.bootstrap(from: &env)
+let app = Application(env)
+defer { app.shutdown() }
+try configure(app)
+try app.run()

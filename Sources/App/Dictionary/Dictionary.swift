@@ -15,27 +15,21 @@ public class Dictionary: DictionaryProtocol {
         self.path = Bundle.module.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
     }
     
-    public func getDictionary() throws -> [String: [String: String]] {
+    public func getDictionary() -> [String: [String: String]] {
         var dictionary: [String: [String: String]] = [:]
         if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
             dictionary = (try? JSONDecoder().decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
-            return dictionary
-        } else {
-            throw ValidationResult.failedToRead
         }
+        return dictionary
     }
 
-    public func write(dictionary: [String: [String: String]]) throws {
-        
-        guard !dictionary.isEmpty else {
-            throw ValidationResult.failedToWrite
-        }
+    public func write(dictionary: [String: [String: String]]) {
         
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
         } catch {
-            throw ValidationResult.failedToWrite
+            print("Ne udalos zapisat!")
         }        
     }
 
