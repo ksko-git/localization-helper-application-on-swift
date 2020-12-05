@@ -19,7 +19,7 @@ public class Update: UpdateProtocol {
         self.languageAndTranslation = [:]
     }
     
-    public func update(newWord: String, key: String, language: String) -> [String: [String: String]] {
+    public func update(newWord: String, key: String, language: String) -> Result<[String : [String : String]], ValidationResult> {
         
         var dictionary = dict.getDictionary()
         var isInDictionary = false
@@ -42,6 +42,6 @@ public class Update: UpdateProtocol {
         dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Словарь обновлен.")
         output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
-        return dictionary
+        return .success(dictionary)
     }
 }

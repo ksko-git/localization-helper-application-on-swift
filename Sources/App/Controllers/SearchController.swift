@@ -10,29 +10,29 @@ import Vapor
 
 struct SearchController: RouteCollection {
     
-//    let searchFunc = SearchProtocol
-    let container = Container()
+    let container: Container
     
-//    init(searchFunc: SearchProtocol) {
-//        self.searchFunc = searchFunc
-//    }
+    init(container: Container) {
+        self.container = container
+    }
     
     func boot(routes: RoutesBuilder) throws {
+        // /search...
         let group = routes.grouped("search")
-//        group.get(use: search)
+        group.get(use: search)
     }
-//
-//    func search(req: Request) -> EventLoopFuture<[String: [String: String]]> {
-//
-//        let parameters = try? req.query.decode(Parameters.self)
-//
-//        req.logger.info("Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
-//
-//        let result = container.search.search(key: parameters?.key, language: parameters?.language)
-//
-//        return req.eventLoop.future(result: ["hello": ["en": "hehe"]])
-//
-//    }
+
+    func search(req: Request) -> EventLoopFuture<[String: [String: String]]> {
+
+        let parameters = try? req.query.decode(Parameters.self)
+
+        req.logger.info("Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
+
+        let result = container.search.search(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
+        
+        return req.eventLoop.future(result: result)
+
+    }
     
 }
 

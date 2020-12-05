@@ -23,7 +23,7 @@ public class Search: SearchProtocol {
         self.languageAndTranslation = [:]
     }
     
-    public func search(key: String?, language: String?) -> [String: [String: String]] {
+    public func search(key: String?, language: String?) -> Result<[String: [String: String]], ValidationResult> {
         
         let dictionary = dict.getDictionary()
         
@@ -64,13 +64,13 @@ public class Search: SearchProtocol {
                             output.consoleOutput(word: thisTranslation)
                             isInDictionary = true
                         }
-                        languageAndTranslation = [:]
                     }
                 }
             }
         }
         output.outputNotFound(isInDictionary: isInDictionary)            
-        return newDictionary
+//        return newDictionary
+        return .success(newDictionary)
     }
 
     public func defaultSearch(dictionary: [String: [String: String]]) -> [String: [String: String]] {
@@ -81,7 +81,6 @@ public class Search: SearchProtocol {
                 
                 languageAndTranslation[dictionaryLanguage] = dictionaryTranslation
                 newDictionary[englishWord] = languageAndTranslation
-                languageAndTranslation = [:]
                 
                 output.outputTemplates(variant: .colon, firstArgument: dictionaryLanguage, secondArgument: dictionaryTranslation)
             }

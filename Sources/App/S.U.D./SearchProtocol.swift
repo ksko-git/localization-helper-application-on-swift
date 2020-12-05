@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchProtocol {
-    func search(key: String?, language: String?) -> [String: [String: String]]
+    func search(key: String?, language: String?) -> Result<[String: [String: String]], ValidationResult>
 }

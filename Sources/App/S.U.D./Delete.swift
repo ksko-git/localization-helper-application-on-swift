@@ -17,14 +17,14 @@ public class Delete: DeleteProtocol {
         self.output = terminalOutput
     }
     
-    public func delete(key: String?, language: String?) -> [String: [String: String]] {
+    public func delete(key: String?, language: String?) -> Result<[String : [String : String]], ValidationResult> {
         
         var isInDictionary = false
         var dictionary = dict.getDictionary()
         
         guard key != nil && language != nil else {
             output.consoleOutput(word: ValidationResult.twoParametersForDeleteFunctionExpected.errorDescription)
-            return dictionary
+            return .failure(.twoParametersForDeleteFunctionExpected)
         }
         for (englishWord, wordsArray) in dictionary {
             var wordsArray = wordsArray
@@ -37,12 +37,12 @@ public class Delete: DeleteProtocol {
         }
         guard isInDictionary == true else {
             output.consoleOutput(word: ValidationResult.wordOutOfDictionary.errorDescription)
-            return dictionary
+            return .failure(.wordOutOfDictionary)
         }
         dict.write(dictionary: dictionary)
         output.consoleOutput(word: "Слово удалено.")
         output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
-        return dictionary
+        return .success(dictionary)
         
     }
 }

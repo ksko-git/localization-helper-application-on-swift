@@ -30,7 +30,7 @@ public class Container {
     
 }
 
-public func localisationHelper() -> [String: [String: String]] {
+public func localisationHelper() -> Result<[String : [String : String]], ValidationResult> {
     
     let container = Container()
 
@@ -47,5 +47,5 @@ public func localisationHelper() -> [String: [String: String]] {
     } else if case .help(let message) = arguments {
         container.message.consoleOutput(word: message)
     }
-    return [:]
+    return .failure(.somethingWentWrong)
 }
