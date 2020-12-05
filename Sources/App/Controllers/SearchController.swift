@@ -25,9 +25,7 @@ struct SearchController: RouteCollection {
     func search(req: Request) -> EventLoopFuture<[String: [String: String]]> {
 
         let parameters = try? req.query.decode(Parameters.self)
-
-        req.logger.info("Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
-
+        req.logger.info("Search request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
         let result = container.search.search(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
         
         return req.eventLoop.future(result: result)

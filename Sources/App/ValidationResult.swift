@@ -18,6 +18,7 @@ public enum ValidationResult: Swift.Error, Equatable {
     case failedToWrite
     case failedToRead
     case helpMessageIsNotShown
+    case threeParametersForUpdateFunctionExpected
     
     public var errorDescription: String {
         switch self {
@@ -37,6 +38,8 @@ public enum ValidationResult: Swift.Error, Equatable {
             return "Failed to read the dictionary!"
         case .helpMessageIsNotShown:
             return "Help message is not shown!"
+        case .threeParametersForUpdateFunctionExpected:
+            return "Insufficient parameters for update function!"
         default:
             return "Something went wrong!"
         }
@@ -60,6 +63,8 @@ public enum ValidationResult: Swift.Error, Equatable {
             return 16
         case .helpMessageIsNotShown:
             return 17
+        case .threeParametersForUpdateFunctionExpected:
+            return 18
         default:
             return 10
         }

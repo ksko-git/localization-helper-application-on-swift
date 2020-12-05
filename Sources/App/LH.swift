@@ -36,8 +36,6 @@ public func localisationHelper() -> Result<[String : [String : String]], Validat
 
     let arguments = container.argumentsParser.parse(nil)
     
-//    container.search.search(key: "day", language: "en")
-    
     if case .search(let key, let language) = arguments {
         return container.search.search(key: key, language: language)
     } else if case .update(let word, let key, let language) = arguments {

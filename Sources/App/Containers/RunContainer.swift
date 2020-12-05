@@ -14,6 +14,14 @@ public class RunContainer {
         SearchController(container: Container())
     }
     
+    var deleteController: DeleteController {
+        DeleteController(container: Container())
+    }
+    
+    var updateController: UpdateController {
+        UpdateController(container: Container())
+    }
+    
 }
 
 extension Application {

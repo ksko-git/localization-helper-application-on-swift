@@ -8,6 +8,8 @@ func routes(_ app: Application) throws {
     }
     
     try? app.register(collection: app.runContainer.searchController)
+    try? app.register(collection: app.runContainer.deleteController)
+    try? app.register(collection: app.runContainer.updateController)
     
     app.get("dictionary") { req -> EventLoopFuture<[DictionaryTable]> in
         let dict = DictionaryTable.query(on: req.db)
