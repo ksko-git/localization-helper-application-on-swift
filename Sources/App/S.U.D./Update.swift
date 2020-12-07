@@ -7,15 +7,13 @@
 
 import Foundation
 
-public class Update: UpdateProtocol {
+class Update: UpdateProtocol {
     
-    var output: TerminalOutputProtocol
     let dict: DictionaryProtocol
     var languageAndTranslation: [String: String] = [:]
     
-    init(dictionary: DictionaryProtocol, terminalOutput: TerminalOutputProtocol) {
+    init(dictionary: DictionaryProtocol) {
         self.dict = dictionary
-        self.output = terminalOutput
         self.languageAndTranslation = [:]
     }
     
@@ -42,13 +40,10 @@ public class Update: UpdateProtocol {
                 dictionary.updateValue(languageAndTranslation, forKey: newWord)
             }
             dict.write(dictionary: dictionary)
-            output.consoleOutput(word: "Словарь обновлен.")
-            output.consoleOutput(word: "Обновленный словарь: \(dictionary)")
             return .success(dictionary)
         } else {
             return .failure(.threeParametersForUpdateFunctionExpected)
         }
-        
         
     }
 }

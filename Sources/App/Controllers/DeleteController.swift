@@ -10,9 +10,9 @@ import Vapor
 
 struct DeleteController: RouteCollection {
     
-    let container: Container
+    let container: Manager
     
-    init(container: Container) {
+    init(container: Manager) {
         self.container = container
     }
     

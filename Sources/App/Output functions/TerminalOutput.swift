@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class TerminalOutput: TerminalOutputProtocol {
+class TerminalOutput: TerminalOutputProtocol {
     
     public func consoleOutput(word: String) {
         print(word)

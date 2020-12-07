@@ -8,7 +8,7 @@
 import Foundation
 import ArgumentParser
 
-public class ArgumentsParser: ArgumentsParserProtocol {
+class ArgumentsParser: ArgumentsParserProtocol {
 
     public func parse(_ arguments: [String]?) -> Arguments {
         do {

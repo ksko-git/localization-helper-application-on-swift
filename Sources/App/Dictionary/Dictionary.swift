@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Dictionary: DictionaryProtocol {
+class Dictionary: DictionaryProtocol {
     
     let path: String
     
@@ -24,12 +24,11 @@ public class Dictionary: DictionaryProtocol {
     }
 
     public func write(dictionary: [String: [String: String]]) {
-        
         do {
             let json = try JSONEncoder().encode(dictionary.self)
             try json.write(to: URL(fileURLWithPath: path))
         } catch {
-            print("Ne udalos zapisat!")
+            print("Failed to write!")
         }        
     }
 

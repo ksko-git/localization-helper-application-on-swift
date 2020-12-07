@@ -11,15 +11,15 @@ import Vapor
 public class RunContainer {
 
     var searchController: SearchController {
-        SearchController(container: Container())
+        SearchController(container: Manager())
     }
     
     var deleteController: DeleteController {
-        DeleteController(container: Container())
+        DeleteController(container: Manager())
     }
     
     var updateController: UpdateController {
-        UpdateController(container: Container())
+        UpdateController(container: Manager())
     }
     
 }
