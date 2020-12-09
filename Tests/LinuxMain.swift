@@ -3,6 +3,6 @@ import XCTest
 import localisation_helperTests
 
 var tests = [XCTestCaseEntry]()
-tests += localisation-helperTests.allTests()
+tests += LHLibraryTests.allTests()
 XCTMain(tests)
 

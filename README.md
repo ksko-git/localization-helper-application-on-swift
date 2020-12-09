@@ -10,9 +10,9 @@ cd localization-helper-application-on-swift
 ```
 swift build
 ```
-## Запуск проекта
+## Запуск приложения через консоль
 ```
-swift run Run
+swift run RunTerminal
 ```
 ```
 OVERVIEW: Localisation helper application.
@@ -29,18 +29,10 @@ SUBCOMMANDS:
 
   See 'commands help <subcommand>' for detailed help.
 ```
+## Запуск приложения в качетсве API
 ```
-swift run Run search
+swift run RunAPI
 ```
 ```
-day
-    ru: День
-    en: Day
-    pt: Dia
-terms
-    pt: Termos
-    en: Terms
-hello
-    ru: Привет
-    en: Hello
+Server starting on http://127.0.0.1:8080
 ```
