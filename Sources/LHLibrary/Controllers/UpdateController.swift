@@ -10,10 +10,10 @@ import Vapor
 
 struct UpdateController: RouteCollection {
     
-    let container: Manager
+    let update: UpdateProtocol
     
-    init(container: Manager) {
-        self.container = container
+    init(update: UpdateProtocol) {
+        self.update = update
     }
     
     func boot(routes: RoutesBuilder) throws {
@@ -27,7 +27,7 @@ struct UpdateController: RouteCollection {
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Update request. Parameters: newWord = \(parameters?.newWord ?? "") key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
         
-        let result = container.update.update(
+        let result = update.update(
             newWord: parameters?.newWord,
             key: parameters?.key,
             language: parameters?.language

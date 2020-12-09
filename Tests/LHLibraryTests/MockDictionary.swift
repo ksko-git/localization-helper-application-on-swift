@@ -5,7 +5,7 @@
 //  Created by Ксюся on 19.11.2020.
 //
 
-@testable import App
+@testable import LHLibrary
 
 class MockDictionary: DictionaryProtocol {
     

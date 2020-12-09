@@ -15,16 +15,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "App",
+            name: "LHLibrary",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
             ],
+            path: "Sources/LHLibrary",
             resources: [
-                .process("Dictionary/dictionary.json"),
-                .process("Tests.sh")
+                .process("Dictionary/dictionary.json")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
@@ -33,9 +33,22 @@ let package = Package(
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
         ),
-        .target(name: "Run", dependencies: [.target(name: "App")]),
-        .testTarget(name: "AppTests", dependencies: [
-            .target(name: "App"),
+        .target(
+            name: "RunTerminal",
+            dependencies: [
+                .target(name: "LHLibrary")
+            ],
+            path: "Sources/RunTerminal"
+        ),
+        .target(
+            name: "RunAPI",
+            dependencies: [
+                .target(name: "LHLibrary")
+            ],
+            path: "Sources/RunAPI"
+        ),
+        .testTarget(name: "LHLibraryTests", dependencies: [
+            .target(name: "LHLibrary"),
             .product(name: "XCTVapor", package: "vapor"),
         ])
     ]

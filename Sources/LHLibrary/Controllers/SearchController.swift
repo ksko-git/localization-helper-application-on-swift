@@ -10,10 +10,10 @@ import Vapor
 
 struct SearchController: RouteCollection {
     
-    let container: Manager
+    let search: SearchProtocol
     
-    init(container: Manager) {
-        self.container = container
+    init(search: SearchProtocol) {
+        self.search = search
     }
     
     func boot(routes: RoutesBuilder) throws {
@@ -26,7 +26,7 @@ struct SearchController: RouteCollection {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Search request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
-        let result = container.search.search(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
+        let result = search.search(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
         
         return req.eventLoop.future(result: result)
 

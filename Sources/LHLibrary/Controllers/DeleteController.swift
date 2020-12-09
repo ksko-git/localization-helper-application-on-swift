@@ -10,10 +10,10 @@ import Vapor
 
 struct DeleteController: RouteCollection {
     
-    let container: Manager
+    let delete: DeleteProtocol
     
-    init(container: Manager) {
-        self.container = container
+    init(delete: DeleteProtocol) {
+        self.delete = delete
     }
     
     func boot(routes: RoutesBuilder) throws {
@@ -26,7 +26,8 @@ struct DeleteController: RouteCollection {
         
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Delete request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
-        let result = container.delete.delete(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
+        
+        let result = delete.delete(key: parameters?.key, language: parameters?.language).mapError{ $0 as Error }
         
         return req.eventLoop.future(result: result)
         

@@ -8,28 +8,6 @@
 import Foundation
 import ArgumentParser
 
-class Container {
-    
-    var dict = Dictionary()
-    
-    var message: TerminalOutputProtocol {
-        TerminalOutput()
-    }
-    var argumentsParser: ArgumentsParserProtocol {
-        ArgumentsParser()
-    }
-    var search: SearchProtocol {
-        Search(dictionary: dict)
-    }
-    var update: UpdateProtocol {
-        Update(dictionary: dict)
-    }
-    var delete: DeleteProtocol {
-        Delete(dictionary: dict)
-    }
-    
-}
-
 public func localisationHelper() -> Result<[String : [String : String]], ValidationResult> {
     
     let container = Container()

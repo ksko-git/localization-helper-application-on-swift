@@ -25,7 +25,7 @@ for ((i = 0; i < "$amountTests"; i++)); do
   
   test=${allTests[$i]}
   expectedExitCode=${expectedExitCodes[$i]}
-  ./.build/debug/Run ""${test}""
+  ./.build/debug/RunTerminal ""${test}""
   
   exitCode="$?"
   echo $exitCode

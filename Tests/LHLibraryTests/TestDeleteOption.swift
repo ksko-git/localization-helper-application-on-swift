@@ -1,47 +1,44 @@
 //
-//  TestUpdateOption.swift
+//  TestDeleteOption.swift
 //  
 //
-//  Created by Ксюся on 20.11.2020.
+//  Created by Ксюся on 19.11.2020.
 //
 
-@testable import App
+@testable import LHLibrary
 import XCTest
 
-final class TestUpdateOption: XCTestCase {
+final class TestDeleteOption: XCTestCase {
 
-    var update: Update!
+    var delete: Delete!
 
     var dict: MockDictionary!
-    var output: MockTerminalOutput!
+    var thrownError: ValidationResult?
 
     override func setUp() {
         super.setUp()
         dict = MockDictionary()
-        output = MockTerminalOutput()
-        update = Update(dictionary: dict)
+        delete = Delete(dictionary: dict)
     }
 
     override func tearDown() {
-        update = nil
+        delete = nil
         dict = nil
-        output = nil
         super.tearDown()
     }
-    
-    func testUpdateOptionWithTwoKeys() throws {
+
+    func testDeleteOptionWithTwoKeys() throws {
         
         XCTAssertNoThrow(dict.getDictionary(), "Dictionary received.")
         dict.getDictionaryResult = ["hello": ["en": "hello"]]
         XCTAssertEqual(dict.getDictionary(), ["hello": ["en": "hello"]])
         XCTAssertNoThrow(dict.write(dictionary: dict.getDictionaryResult), "Successfull write.")
         
-        XCTAssertNoThrow(update.update(newWord: "hi", key: "hello", language: "en"), "Successfull delete.")
-        
+        XCTAssertNoThrow(delete.delete(key: "hello", language: "en"), "Successfull delete.")
     }
     
     static var allTests = [
-        ("testUpdateOptionWithTwoKeys", testUpdateOptionWithTwoKeys)
+        ("testDeleteOptionWithTwoKeys", testDeleteOptionWithTwoKeys)
     ]
 
 }

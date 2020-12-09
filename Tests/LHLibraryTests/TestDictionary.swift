@@ -5,7 +5,7 @@
 //  Created by Ксюся on 23.11.2020.
 //
 
-@testable import App
+@testable import LHLibrary
 import XCTest
 
 final class TestDictionary: XCTestCase {

@@ -1,7 +1,7 @@
-@testable import App
+@testable import LHLibrary
 import XCTVapor
 
-final class AppTests: XCTestCase {
+final class LHLibraryTests: XCTestCase {
     func testHelloWorld() throws {
         let app = Application(.testing)
         defer { app.shutdown() }
