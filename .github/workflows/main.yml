@@ -27,12 +27,12 @@ jobs:
       - name: Run the app
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: run Run
+          swift-action: run RunTerminal
           
       - name: Run UNIT tests
         uses: Didstopia/SwiftAction@v1.0.3
         with:
-          swift-action: run Run test
+          swift-action: run RunTerminal test
       
       - name: Run Tests.sh
         run: sudo bash ./Tests.sh
@@ -48,10 +48,10 @@ jobs:
         run: swift build
                 
       - name: Run app
-        run: .build/debug/Run
+        run: .build/debug/RunTerminal
         
       - name: Run UNIT tests
-        run: .build/debug/Run test
+        run: .build/debug/RunTerminal test
       
       - name: Run Tests.sh
         run: sh Tests.sh
