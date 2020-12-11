@@ -1,11 +1,15 @@
 import Fluent
 import Vapor
+import Leaf
+import LeafKit
 
 func routes(_ app: Application) throws {
     
-    app.get() { req in
-        return "Hi!"
-    }
+//    app.get() { req in
+//        return "Hi!"
+//    }
+    
+//    try? app.register(collection: app.runContainer.websiteController)
     
     try? app.register(collection: app.runContainer.searchController)
     try? app.register(collection: app.runContainer.deleteController)
