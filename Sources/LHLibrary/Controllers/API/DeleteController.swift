@@ -17,12 +17,12 @@ struct DeleteController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /delete...
-        let group = routes.grouped("delete")
-        group.get(use: delete)
+        // /deleteAPI...
+        let group = routes.grouped("deleteAPI")
+        group.get(use: deleteAPI)
     }
     
-    func delete(req: Request) throws -> EventLoopFuture<[String: [String: String]]> {
+    func deleteAPI(req: Request) throws -> EventLoopFuture<[String: [String: String]]> {
         
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Delete request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")

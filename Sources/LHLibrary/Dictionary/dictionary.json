@@ -1,11 +1,16 @@
 {
 "hello": {"en": "Hello",
-          "ru": "Привет"},
+          "ru": "Привет",
+          "jp": "こんにちは"},
 
 "day": {"en": "Day",
         "ru": "День",
         "pt": "Dia"},
 
 "terms": {"en": "Terms",
-          "pt": "Termos"}
+          "pt": "Termos",
+          "jp": "条項"},
+"cat": {"en": "Cat",
+        "ru": "Кошка",
+        "jp": "ネコ"},
 }

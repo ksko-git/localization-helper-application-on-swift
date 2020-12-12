@@ -7,11 +7,7 @@ import LeafKit
 // configures your application
 public func configure(_ app: Application) throws {
     
-    app.views.use(.leaf)
-    
-    app.get("hello") { req -> EventLoopFuture<View> in
-        return req.view.render("hello", ["name": "Leaf"])
-    }
+    app.views.use(.leaf)    
     
     // uncomment to serve files from /Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))

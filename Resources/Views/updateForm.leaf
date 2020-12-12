@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>🌝 Изменение 🌝</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    </head>
+    <body>
+    
+        <form method="GET" action="/resultView?newWord=#(newWord)&key=#(key)&value=#(language)">
+            <div class="block" style="margin-left: 32%; margin-right: 32%; margin-top: 5%">
+                <div class="field">
+                  <label class="label">Новое слово</label>
+                  <div class="control">
+                    <input class="input" type="text" name="newWord" value="#(newWord)" placeholder="Введите новое слово">
+                  </div>
+                </div>
+                
+                <div class="field">
+                  <label class="label">Старое слово</label>
+                  <div class="control">
+                    <input class="input" type="text" name="key" value="#(key)" placeholder="Введите старое слово">
+                  </div>
+                </div>
+                
+                <div class="field">
+                  <label class="label">Язык</label>
+                  <div class="control">
+                    <input class="input" type="text" name="language" value="#(language)" placeholder="Введите язык">
+                  </div>
+                </div>
+                
+                <div class="control">
+                  <button type="submit" class="button is-primary">Изменить</button>
+                </div>
+            </div>
+        </form>
+        
+    </body>
+</html>

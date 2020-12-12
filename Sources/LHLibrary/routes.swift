@@ -4,13 +4,18 @@ import Leaf
 import LeafKit
 
 func routes(_ app: Application) throws {
-    
-//    app.get() { req in
-//        return "Hi!"
-//    }
-    
-//    try? app.register(collection: app.runContainer.websiteController)
-    
+    // MAIN
+    app.get() { req -> EventLoopFuture<View> in
+        return req.view.render("index")
+    }
+    // WEB
+    try? app.register(collection: app.runContainer.webSearchFormController)
+    try? app.register(collection: app.runContainer.webSearchController)
+    try? app.register(collection: app.runContainer.webUpdateFormController)
+    try? app.register(collection: app.runContainer.webUpdateController)
+    try? app.register(collection: app.runContainer.webDeleteFormController)
+    try? app.register(collection: app.runContainer.webDeleteController)
+    // API
     try? app.register(collection: app.runContainer.searchController)
     try? app.register(collection: app.runContainer.deleteController)
     try? app.register(collection: app.runContainer.updateController)

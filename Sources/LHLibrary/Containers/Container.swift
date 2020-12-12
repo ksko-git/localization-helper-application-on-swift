@@ -10,9 +10,15 @@ import Vapor
 public class Container {
     
     var dict: DictionaryProtocol
+    var webSearchFormController: WebSearchFormController
+    var webUpdateFormController: WebUpdateFormController
+    var webDeleteFormController: WebDeleteFormController
     
     init() {
         self.dict = Dictionary()
+        self.webSearchFormController = WebSearchFormController()
+        self.webUpdateFormController = WebUpdateFormController()
+        self.webDeleteFormController = WebDeleteFormController()
     }
     
     var message: TerminalOutputProtocol {
@@ -41,6 +47,18 @@ public class Container {
     
     var updateController: UpdateController {
         UpdateController(update: Update(dictionary: dict))
+    }
+    
+    var webSearchController: WebSearchController {
+        WebSearchController(search: Search(dictionary: dict))
+    }
+    
+    var webUpdateController: WebUpdateController {
+        WebUpdateController(update: Update(dictionary: dict))
+    }
+    
+    var webDeleteController: WebDeleteController {
+        WebDeleteController(delete: Delete(dictionary: dict))
     }
     
 }
