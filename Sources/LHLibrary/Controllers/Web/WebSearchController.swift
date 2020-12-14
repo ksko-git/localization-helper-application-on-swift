@@ -26,8 +26,19 @@ struct WebSearchController: RouteCollection {
     func searchResultView(req: Request) -> EventLoopFuture<View> {
 
         let parameters = try? req.query.decode(Parameters.self)
+        
+        var thisKey = parameters?.key
+        var thisLanguage = parameters?.language
+        
+        if ((parameters?.key?.isEmpty) != nil) { 
+            thisKey = nil
+        }
+        if ((parameters?.language?.isEmpty) != nil) {
+            thisLanguage = nil
+        }
+        
         req.logger.info("Search request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
-        let result = search.search(key: parameters?.key, language: parameters?.language)
+        let result = search.search(key: thisKey, language: thisLanguage)
             .mapError{ $0 as Error }
         
         let res = result.map { value in
