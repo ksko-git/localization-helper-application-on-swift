@@ -10,7 +10,7 @@ cd localization-helper-application-on-swift
 ```
 swift build
 ```
-## Запуск приложения через консоль
+## Запуск консольного приложения
 ```
 swift run RunTerminal
 ```
