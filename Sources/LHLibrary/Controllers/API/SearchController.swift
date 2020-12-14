@@ -17,12 +17,12 @@ struct SearchController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /search...
-        let group = routes.grouped("search")
-        group.get(use: search)
+        // /searchAPI...
+        let group = routes.grouped("searchAPI")
+        group.get(use: searchAPI)
     }
 
-    func search(req: Request) -> EventLoopFuture<[String: [String: String]]> {
+    func searchAPI(req: Request) -> EventLoopFuture<[String: [String: String]]> {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Search request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")

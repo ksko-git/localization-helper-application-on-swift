@@ -17,12 +17,12 @@ struct UpdateController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /update...
-        let group = routes.grouped("update")
-        group.get(use: update)
+        // /updateAPI...
+        let group = routes.grouped("updateAPI")
+        group.get(use: updateAPI)
     }
 
-    func update(req: Request) -> EventLoopFuture<[String: [String: String]]> {
+    func updateAPI(req: Request) -> EventLoopFuture<[String: [String: String]]> {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Update request. Parameters: newWord = \(parameters?.newWord ?? "") key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
