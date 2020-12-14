@@ -14,25 +14,11 @@ swift build
 ```
 swift run RunTerminal
 ```
-```
-OVERVIEW: Localisation helper application.
-
-USAGE: commands <subcommand>
-
-OPTIONS:
-  -h, --help              Show help information.
-
-SUBCOMMANDS:
-  search
-  update
-  delete
-
-  See 'commands help <subcommand>' for detailed help.
-```
 ## Запуск приложения в качетсве API
 ```
 swift run RunAPI
 ```
+## Запуск веб-приложения
 ```
-Server starting on http://127.0.0.1:8080
+swift run RunWeb
 ```
