@@ -1,6 +1,6 @@
 //
 //  WebSearchFormController.swift
-//  
+//
 //
 //  Created by Ксюся on 11.12.2020.
 //

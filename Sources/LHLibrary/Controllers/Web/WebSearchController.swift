@@ -18,12 +18,12 @@ struct WebSearchController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /resultView...
-        let group = routes.grouped("resultView")
-        group.get(use: searchView)
+        // /searchResultView...
+        let group = routes.grouped("searchResultView")
+        group.get(use: searchResultView)
     }
     
-    func searchView(req: Request) -> EventLoopFuture<View> {
+    func searchResultView(req: Request) -> EventLoopFuture<View> {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Search request. Parameters: key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
@@ -48,10 +48,10 @@ struct WebSearchController: RouteCollection {
         
         if case .success(_) = result {
             if case .success(let dict) = res {
-                return req.view.render("resultView", WebSearchViewContext(title: "🌝 Результаты поиска 🌝", results: dict))
+                return req.view.render("searchResultView", WebSearchViewContext(title: "🌝 Результаты поиска 🌝", results: dict))
             }
         }
-        return req.view.render("resultView", ["title": "🌝 Результаты поиска 🌝"])
+        return req.view.render("searchResultView", ["title": "🌝 Результаты поиска 🌝"])
 
     }
     

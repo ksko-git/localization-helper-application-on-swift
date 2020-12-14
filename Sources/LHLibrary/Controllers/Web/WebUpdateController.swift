@@ -18,12 +18,12 @@ struct WebUpdateController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /resultView...
-        let group = routes.grouped("resultView")
-        group.get(use: updateView)
+        // /updateResultView...
+        let group = routes.grouped("updateResultView")
+        group.get(use: updateResultView)
     }
     
-    func updateView(req: Request) -> EventLoopFuture<View> {
+    func updateResultView(req: Request) -> EventLoopFuture<View> {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Update request. Parameters: newWord = \(parameters?.newWord ?? "") key = \(parameters?.key ?? "") language = \(parameters?.language ?? "")")
@@ -52,10 +52,10 @@ struct WebUpdateController: RouteCollection {
         
         if case .success(_) = result {
             if case .success(let dict) = res {
-                return req.view.render("resultView", WebUpdateViewContext(title: "🌝 Результаты изменения 🌝", results: dict))
+                return req.view.render("updateResultView", WebUpdateViewContext(title: "🌝 Результаты изменения 🌝", results: dict))
             }
         }
-        return req.view.render("resultView", ["title": "🌝 Результаты изменения 🌝"])
+        return req.view.render("updateResultView", ["title": "🌝 Результаты изменения 🌝"])
 
     }
     

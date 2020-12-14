@@ -1,6 +1,6 @@
 //
 //  WebDeleteController.swift
-//  
+//
 //
 //  Created by Ксюся on 12.12.2020.
 //
@@ -18,12 +18,12 @@ struct WebDeleteController: RouteCollection {
     }
     
     func boot(routes: RoutesBuilder) throws {
-        // /resultView...
-        let group = routes.grouped("resultView")
-        group.get(use: searchView)
+        // /deleteResultView...
+        let group = routes.grouped("deleteResultView")
+        group.get(use: deleteResultView)
     }
     
-    func searchView(req: Request) -> EventLoopFuture<View> {
+    func deleteResultView(req: Request) -> EventLoopFuture<View> {
 
         let parameters = try? req.query.decode(Parameters.self)
         req.logger.info("Delete request. Parameters: key = \(parameters?.deleteKey ?? "") language = \(parameters?.deleteLanguage ?? "")")
@@ -48,10 +48,10 @@ struct WebDeleteController: RouteCollection {
         
         if case .success(_) = result {
             if case .success(let dict) = res {
-                return req.view.render("resultView", WebDeleteViewContext(title: "🌝 Результаты удаления 🌝", results: dict))
+                return req.view.render("deleteResultView", WebDeleteViewContext(title: "🌝 Результаты удаления 🌝", results: dict))
             }
         }
-        return req.view.render("resultView", ["title": "🌝 Результаты удаления 🌝"])
+        return req.view.render("deleteResultView", ["title": "🌝 Результаты удаления 🌝"])
 
     }
     
