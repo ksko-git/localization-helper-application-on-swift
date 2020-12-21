@@ -22,22 +22,7 @@ class Dictionary: DictionaryProtocol {
     }
     
     public func getDictionary() -> [String: [String: String]] {
-        var dictionary: [String: [String: String]] = [:]
-        if let jsonDictionaryFile = FileManager.default.contents(atPath: path) {
-            dictionary = (try? JSONDecoder().decode([String: [String: String]].self, from: jsonDictionaryFile)) ?? [:]
-        } else {
-            dictionary = localDictionary
-        }
-        return dictionary
-    }
-
-    public func write(dictionary: [String: [String: String]]) {
-        do {
-            let json = try JSONEncoder().encode(dictionary.self)
-            try json.write(to: URL(fileURLWithPath: path))
-        } catch {
-            print("Failed to write!")
-        }        
+        return localDictionary
     }
 
 }
