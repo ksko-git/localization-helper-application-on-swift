@@ -39,7 +39,6 @@ class Update: UpdateProtocol {
                 dictionary[newWord]?[language] = key
                 dictionary.updateValue(languageAndTranslation, forKey: newWord)
             }
-            dict.write(dictionary: dictionary)
             return .success(dictionary)
         } else {
             return .failure(.threeParametersForUpdateFunctionExpected)

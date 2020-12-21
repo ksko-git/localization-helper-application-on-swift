@@ -35,7 +35,6 @@ class Delete: DeleteProtocol {
         guard isInDictionary == true else {
             return .failure(.wordOutOfDictionary)
         }
-        dict.write(dictionary: dictionary)
         return .success(dictionary)
         
     }

@@ -5,7 +5,6 @@
 //  Created by Ксюся on 03.12.2020.
 //
 
-import Fluent
 import Vapor
 
 struct SearchController: RouteCollection {
