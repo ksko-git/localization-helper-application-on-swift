@@ -1,6 +1,6 @@
 # Приложение-помощник для локализации
 
-## Сборка проекта
+## Сборка проекта (macOS)
 ```
 git clone https://github.com/ksko-git/localization-helper-application-on-swift
 ```
